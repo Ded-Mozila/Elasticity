@@ -18,12 +18,12 @@ public:
 	double E;		// E-модуль упругости(Юнга)
 	double M;		// M-Коэффициент Пуассона
 	double f;		// f-Объемная сила
-	list<power> P;	// P-Поверхностная сила
+	list<double> P;	// P-Поверхностная сила
 
 	CompressingPlane();
 	~CompressingPlane();
 
 	// Нахождение входных параметров
-	void F_fun(fstream& settings);
+	void F_fun(FILE * freopen);
 };
 #endif
