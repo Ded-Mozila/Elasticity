@@ -1,7 +1,8 @@
 #include <iostream>
 #include <list>
+#include <vector>
+#include <cmath>
 #include <map>
-//#include <peir>
 #include <iomanip>
 #include <fstream>
 #include <stdlib.h> 

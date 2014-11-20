@@ -122,3 +122,43 @@ CompressingPlane::~CompressingPlane()
 {
 
 }
+
+void CompressingPlane::MultiplicationByConstant( map< char ,list< map<int,double> > >& T )// Домножение на числа
+{
+	for (map< char ,list< map<int,double> > >::iterator i = T.begin(); i != T.end(); ++i)
+	{
+		int k = 0;
+		for (list< map<int,double> >::iterator j = (*i).second.begin(); j != (*i).second.end(); ++j)
+		{
+			map<int,double> ::iterator b;
+			switch(k)
+			{
+				case 0:
+				{
+					for ( b = (*j).begin(); b != (*j).end(); ++b)
+						(*b).second *=E/(1-M*M);
+					break;
+				};
+				case 1:
+				{
+					for ( b = (*j).begin(); b != (*j).end(); ++b)
+						(*b).second *=E*M/(1-M*M);
+					break;
+				};
+				case 2:
+				{
+					for ( b = (*j).begin(); b != (*j).end(); ++b)
+						(*b).second *=G/2.0;
+					break;
+				};
+				case 3:
+				{
+					for ( b = (*j).begin(); b != (*j).end(); ++b)
+						(*b).second *=G/2.0;
+					break;
+				};
+			}
+			k++;
+		}
+	}
+}

@@ -19,6 +19,8 @@ public:
 	double M;		// M-Коэффициент Пуассона
 	double f;		// f-Объемная сила
 	list<double> P;	// P-Поверхностная сила
+	map<int,list<list<double> > > matrixMatrix_NxN;// Матрица содержащяя строки по элементро для каждого элемента сетки
+	void MultiplicationByConstant( map< char ,list< map<int,double> > > &T );// Домножение на числа
 
 	CompressingPlane();
 	~CompressingPlane();
