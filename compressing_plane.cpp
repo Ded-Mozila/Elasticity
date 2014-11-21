@@ -114,7 +114,7 @@ CompressingPlane::CompressingPlane()
 		F.push_back(2);
 		F.push_back(3);
 		G = E/(2*(1-M));
-		N = 21;
+>		N = 21;
 		f = 0;
 		P.push_back(100.0);
 		P.push_back(-100.0);
