@@ -63,9 +63,9 @@ double Zeidely::okr(double X, double eps)
 
 void Zeidely::Iterat(list<list<double> > A, vector<double> B, int N, double eps)
 {
-	freopen("outtext.txt","w+",stdout);
-	// if (ThirdNorm(A) < 1) 
-	// {
+	freopen("outtext.txt","a+",stdout);
+	 if (ThirdNorm(A) < 1) 
+	 {
 		int k = 0;
 		vector<double> X(B);
 		int i,j;
@@ -86,18 +86,17 @@ void Zeidely::Iterat(list<list<double> > A, vector<double> B, int N, double eps)
 				X.at(i) = g;
 			}
 		} while (sqrt(s) >= eps * (1 - ThirdNorm(A)) / ThirdNorm(A));
-			cout << "Решение системы:" << endl;
-			for (i = 0; i < X.size(); ++i)
-				cout << "X" << i << " = " <<okr(X.at(i) ,eps) << endl;
-			cout << "Число итераций: " << k-1 << endl;
-			cout << "Первая норма матрицы A: " << FirstNorm(A) << endl;
-			cout << "Вторая норма матрицы A: " << SecondNorm(A) << endl;
-			cout << "Третья норма матрицы A: " << ThirdNorm(A) << endl;
-		
+		for (i = 0; i < X.size(); ++i)
+			cout << "X" << i+1 << " = " << okr( X.at(i) ,eps) << endl;
+		cout << "Число итераций: " << k-1 << endl;
+		cout << "Первая норма матрицы A: " << FirstNorm(A) << endl;
+		cout << "Вторая норма матрицы A: " << SecondNorm(A) << endl;
+		cout << "Третья норма матрицы A: " << ThirdNorm(A) << endl;
+	fclose(stdout);	
 
-	// } else {
-	// 	cerr << "Условие сходимости по евклидовой метрике не выполняется!" << endl;
-	// }
+	} else {
+		cerr << "Условие сходимости по евклидовой метрике не выполняется!" << endl;
+	}
 
 	
 	// int size = A.size();

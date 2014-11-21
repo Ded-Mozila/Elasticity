@@ -30,6 +30,7 @@ list<list<double> > BuildMatrix(int number,const map< char ,list< map<int,double
  	}
 	return new_Matrix;
 }
+
 list<double> FillingMatrix( int number, map< char ,list< map<int,double> > >T,const int row,const int column, int N) // Заполние матрицы в зависимости от положения конечного элемента
 {
 	list<double> new_Matrix;
