@@ -1,112 +1,7 @@
 #include "compressing_plane.h"
 
-void CompressingPlane::F_fun(FILE * sss)
-{
-	// char s;
-	// while()
-	// {
-	// 	int fff = 0;
-	// 	sss >> fff;
-	// 	F.push_back(fff);
-	// 	sss.get(s);
-	// }
-}
 CompressingPlane::CompressingPlane()
 {
-	//fstream settings("settings.txt", ios_base::in);
-	/*freopen("settings.txt","r",stdin);
-	char s;
-	while( !cin.get(s).eof() )
-	{
-		switch(s)
-		{
-			case '#':// Указатель на Дату 
-			{
-				char * strings = new char[500];
-				cin.getline(strings,500,'\n');
-				cout<< strings << endl;
-				break;
-			}
-			case 'F':// граница (F1-левая,F2-верхняя,F3-правая,F4-нижняя)
-			{
-				list<double>::iterator i;
-				while(  '\n' )
-				{
-
-				}
-				for (i = F.begin(); i != F.end(); ++i)
-				{
-					cout << "F="<< *i << '\n'; 
-				}
-				break;
-			}
-			// 	case 'V':// Внутренние узлы 
-			// 	{
-			// 		break;
-			// 	}
-			// 	case 'N':// количество узлов
-			// 	{
-			// 		settings >> N;
-			// 		break;
-			// 	}
-			// 	case 'H':// шаг сетки 
-			// 	{
-			// 		settings.getline(strings,500, '\n');
-			// 		H = atof(strings);
-			// 		cout << H << endl;
-			// 		break;
-			// 	}
-			// 	case 'G':// Коэффициент Лама
-			// 	{
-			// 		settings.getline(strings,500, '\n');
-			// 		cout<< strings << endl;
-			// 		break;
-			// 	}
-			// 	case 'E':// модуль упругости(Юнга) 
-			// 	{
-			// 		settings.getline(strings,500,'\n');
-			// 		E = atoi(strings);
-			// 		cout << E << endl;
-			// 		break;
-			// 	}
-			// 	case 'M':// Коэффициент Пуассона
-			// 	{
-			// 		settings.getline(strings,500,'\n');
-			// 		M = atof(strings);
-			// 		cout << M << endl;
-			// 		break;
-			// 	}
-			// 	case 'P':// Поверхностная сила((P1-левая,P2-верхняя,P3-правая,P4-нижняя)
-			// 	{
-			// 		// settings.getline(strings,100,'\n');
-			// 		// cout<< strings << endl;
-			// 		power Element_P;
-			// 		settings.get(s);
-			// 		while(s != '\n')
-			// 		{
-			// 			Element_P.side = s;
-			// 			cout << Element_P.side;
-			// 		}
-			// 		break;
-			// 	}
-			// 	case 'f':// Объемная сила
-			// 	{
-			// 		settings.getline(strings,500,'\n');
-			// 		cout<< strings << endl;
-			// 		break;
-			// 	}
-			// 	default:
-			// 	{
-			// 		settings.getline(strings,100,'\n');
-			// 		break;
-			// 	}
-			// }
-		}
-		
-
-		//cout << strings;
-	}*/
-
 		//Начальные настройки для задачи
 		M = 0.3;
 		E = 1e-9;
@@ -114,7 +9,7 @@ CompressingPlane::CompressingPlane()
 		F.push_back(2);
 		F.push_back(3);
 		G = E/(2*(1-M));
->		N = 21;
+		N = 21;
 		f = 0;
 		P.push_back(100.0);
 		P.push_back(-100.0);
@@ -162,4 +57,77 @@ void CompressingPlane::MultiplicationByConstant( map< char ,list< map<int,double
 			k++;
 		}
 	}
+}
+
+
+vector<vector<double> > CompressingPlane::MatrixNxN(int row, int column, int xi, int xj)
+{
+	vector<double> NxN;
+	for (int i = 0; i < N; ++i)
+	{
+		for (int j = 0; j < N; ++j)
+		{
+			if (row == 0 || row == N-1 )
+			{
+				//new_Matrix.push_back(0);
+			}
+			else
+			{
+				// Проверка по строкам
+				if(i == row)//element 4 0 1
+				{
+					//Поиск по столбку
+					if(j == column-1)// k = 4
+					{
+						new_Matrix.push_back(XT[4]);
+					}
+					else if(j == column)// k = 0
+					{
+						new_Matrix.push_back(XT[0]);
+					}
+					else if(j == column+1) // k = 1
+					{
+						new_Matrix.push_back(XT[1]);
+					}
+					else
+					{
+						new_Matrix.push_back(0);
+					}
+				}
+				else if(i == row+1)// 5 6
+				{
+					//Поиск по столбку
+					if(j == column-1)// k = 5
+					{
+						new_Matrix.push_back(XT[5]);
+					}
+					else if(j == column)// k = 6
+					{
+						new_Matrix.push_back(XT[6]);
+					}
+					else
+					{
+						new_Matrix.push_back(0);
+					}
+				}
+				else if(i == row-1)// 2 3 
+				{
+					//Поиск по столбку
+					if(j == column)// k = 3
+					{
+						new_Matrix.push_back(XT[3]);
+					}
+					else if(j == column+1) // k = 2
+					{
+						new_Matrix.push_back(XT[2]);
+					}
+					else
+					{
+						new_Matrix.push_back(0);
+					}
+				}else	new_Matrix.push_back(0);
+			}
+		}
+	}
+	return NxN;
 }

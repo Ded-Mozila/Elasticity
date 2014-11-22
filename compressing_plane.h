@@ -21,6 +21,8 @@ public:
 	list<double> P;	// P-Поверхностная сила
 	map<int,list<list<double> > > matrixMatrix_NxN;// Матрица содержащяя строки по элементро для каждого элемента сетки
 	void MultiplicationByConstant( map< char ,list< map<int,double> > > &T );// Домножение на числа
+	
+	vector<vector<double> > MatrixNxN(int xi,int xi);// Расчетматрицы 21 на 21 только без 0 строк
 
 	CompressingPlane();
 	~CompressingPlane();

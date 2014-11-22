@@ -5,9 +5,14 @@
 class integral
 {
 public:
-	integral(arguments);
-	~integral();
-	
+	integral(void);
+	~integral(void);
+	integral(double h);
+	map< char[3] ,list< map<int,double> > >T;
+	map<char, pair<double,double> > Fi;
+	double l;
+	double H;
+	double CalculatingArea(double h, double l)
 };
 
 #endif
