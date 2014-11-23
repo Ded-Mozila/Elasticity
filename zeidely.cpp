@@ -5,11 +5,11 @@
  Zeidely::~Zeidely()
 {
 }
-double Zeidely::FirstNorm(list<list<double> > A)
+double Zeidely::FirstNorm(vector<vector<double> > A)
 {
 	double sum = 0, subSum;
-	list<list<double> >::iterator i;
-	list<double>::iterator  j;
+	vector<vector<double> >::iterator i;
+	vector<double>::iterator  j;
 	for (i = A.begin(); i != A.end(); ++i)
 	{
 		subSum = 0;
@@ -21,11 +21,11 @@ double Zeidely::FirstNorm(list<list<double> > A)
 	return sum;
 }
 
-double Zeidely::SecondNorm(list<list<double> > A)
+double Zeidely::SecondNorm(vector<vector<double> > A)
 {
 	double sum = 0, subSum;
-	list<list<double> >::iterator i;
-	list<double>::iterator  j;
+	vector<vector<double> >::iterator i;
+	vector<double>::iterator  j;
 	for (i = A.begin(); i != A.end(); ++i)
 	{
 		subSum = 0;
@@ -37,11 +37,11 @@ double Zeidely::SecondNorm(list<list<double> > A)
 	return sum;
 }
 
-double Zeidely::ThirdNorm(list<list<double> > A)
+double Zeidely::ThirdNorm(vector<vector<double> > A)
 {
 	double sum = 0;
-	list<list<double> >::iterator i;
-	list<double>::iterator  j;
+	vector<vector<double> >::iterator i;
+	vector<double>::iterator  j;
 	for (i = A.begin(); i != A.end(); ++i)
 		for (j = (*i).begin(); j != (*i).end(); ++j)
 			sum += ((*j) * (*j));
@@ -61,7 +61,7 @@ double Zeidely::okr(double X, double eps)
 	return X;
 }
 
-void Zeidely::Iterat(list<list<double> > A, vector<double> B, int N, double eps)
+void Zeidely::Iterat(vector<vector<double> > A, vector<double> B, int N, double eps)
 {
 	freopen("outtext.txt","a+",stdout);
 	 if (ThirdNorm(A) < 1) 
@@ -71,8 +71,8 @@ void Zeidely::Iterat(list<list<double> > A, vector<double> B, int N, double eps)
 		int i,j;
 		double s;
 		double g;
-		list<list<double> >::iterator ii;
-		list<double>::iterator ij;
+		vector<vector<double> >::iterator ii;
+		vector<double>::iterator ij;
 		do {
 			s = 0; k++;
 			// Решаем систему методом Зейделя.
@@ -102,7 +102,7 @@ void Zeidely::Iterat(list<list<double> > A, vector<double> B, int N, double eps)
 	// int size = A.size();
 	// vector <vector < long double> > matrix;
 
-	// for (list<list<double> >::iterator i = A.begin(); i != A.end(); ++i)
+	// for (vector<vector<double> >::iterator i = A.begin(); i != A.end(); ++i)
 	// {
 	// 	vector<long double> mm;
 	// 	mm.insert(mm.end(),(*i).begin(), (*i).end());

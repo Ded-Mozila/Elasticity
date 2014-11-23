@@ -1,6 +1,7 @@
 #ifndef COMPRESSING_PLANE_H
 #define COMPRESSING_PLANE_H
 #include "header.h"
+#include "build_integral_plane.h"
 struct power
 {
 	double U1;	//Параметры
@@ -19,15 +20,9 @@ public:
 	double M;		// M-Коэффициент Пуассона
 	double f;		// f-Объемная сила
 	list<double> P;	// P-Поверхностная сила
-	map<int,list<list<double> > > matrixMatrix_NxN;// Матрица содержащяя строки по элементро для каждого элемента сетки
-	void MultiplicationByConstant( map< char ,list< map<int,double> > > &T );// Домножение на числа
-	
-	vector<vector<double> > MatrixNxN(int xi,int xi);// Расчетматрицы 21 на 21 только без 0 строк
-
+	map<int,vector<vector<double> > > matrixMatrix_NxN;// Матрица содержащяя строки по элементро для каждого элемента сетки
 	CompressingPlane();
 	~CompressingPlane();
-
-	// Нахождение входных параметров
-	void F_fun(FILE * freopen);
+	vector<vector<double> > MatrixNxN(pair<int,int> x);
 };
 #endif
