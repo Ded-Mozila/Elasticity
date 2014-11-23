@@ -10,8 +10,7 @@ public:
 	integral(double h);
 	map< char[3] ,list< map<int,double> > >T;
 	map<char, pair<double,double> > Fi;
-	double l;
-	double H;
+	double ds;
 	double CalculatingArea(double h, double l)
 };
 
