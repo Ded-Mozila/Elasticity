@@ -63,7 +63,7 @@ double Zeidely::okr(double X, double eps)
 
 void Zeidely::Iterat(vector<vector<double> > A, vector<double> B, int N, double eps)
 {
-	freopen("outtext.txt","a+",stdout);
+	freopen("outtext.txt","w+",stdout);
 	 if (ThirdNorm(A) < 1) 
 	 {
 		int k = 0;
@@ -85,7 +85,8 @@ void Zeidely::Iterat(vector<vector<double> > A, vector<double> B, int N, double 
 				s += (X.at(i) - g) * (X.at(i) - g);
 				X.at(i) = g;
 			}
-		} while (sqrt(s) >= eps * (1 - ThirdNorm(A)) / ThirdNorm(A));
+			cout << k << endl;
+		} while (sqrt(s) != eps * (1 - ThirdNorm(A)) / ThirdNorm(A));
 		for (i = 0; i < X.size(); ++i)
 			cout << "X" << i+1 << " = " << okr( X.at(i) ,eps) << endl;
 		cout << "Число итераций: " << k-1 << endl;

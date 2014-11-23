@@ -35,6 +35,11 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x)
 vector<double> integral::CalcElememt(int row, int column ,int xi , int xj )// xi- первая константа для dFik/dxi , xj  - вторая константа для dFi/dxj 
 {
 	map<int, bool> K(BuildAreaElm_K(N,row,column));
+	////////////////////////////////////////////////////////////////
+	// for (int i = 1; i < 7; ++i)
+	// {
+	// 	cout << i <<"="<< K[i] << endl;
+	// }
 	map<int, bool> triangl_K;
 	//Проверка на существование треугольников
 	for( int i = 1; i < 6; ++i)
@@ -82,6 +87,11 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj )// xi
 		T[6] += Area(3,5,xi,xj);
 	if(triangl_K[6] == true)
 		T[6] += Area(2,6,xi,xj);
+	// for (int i = 0; i < 7; ++i)
+	// {
+	// 	cout << i << "= " << T[i] << endl;
+	// }
+	// cout << ds << endl;
 	vector<double> new_Matrix;
 	for(int i =1; i < N-1; ++i)
 	{
@@ -188,25 +198,26 @@ map<int,bool> integral::BuildAreaElm_K( int n, int row, int column)
 		}
 		case 4:
 		{
-			if(( 0 <= row && row < n ) && ( 1 < column && column < n ))
+			if(( 0 <= row && row < n ) && ( 1 <= column && column < n ))
 				K[4] = true;
 			else K[4] = false;	
 			break;
 		}
 		case 5:
 		{
-			if(( 0 <= row && row < n-1 ) && ( 1 < column && column < n))
+			if(( 0 <= row && row < n-2 ) && ( 1 <= column && column < n))
 				K[5] = true;
 			else K[5] = false;
 			break;
 		}
 		case 6:
 		{	
-			if(( 0 <= row && row < n-1 ) && ( 0 < column && column < n))
+			if(( 0 <= row && row < n-2 ) && ( 0 <= column && column < n))
 				K[6] = true;
 			else K[6] = false;
 			break;
 		}
+	
 	}
 	return K;
 }

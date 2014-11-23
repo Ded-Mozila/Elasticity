@@ -16,7 +16,7 @@ CompressingPlane::CompressingPlane()
 }
 CompressingPlane::~CompressingPlane()
 {
-	
+
 }
 
 

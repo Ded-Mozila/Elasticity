@@ -7,10 +7,10 @@ class Zeidely
 public:
 	Zeidely();
 	~Zeidely();
-	double FirstNorm(list<list<double> > A);
-	double SecondNorm(list<list<double> > A);
-	double ThirdNorm(list<list<double> > A);
-	void Iterat(list<list<double> > A, vector<double> B, int N, double eps);
+	double FirstNorm(vector<vector<double> > A);
+	double SecondNorm(vector<vector<double> > A);
+	double ThirdNorm(vector<vector<double> > A);
+	void Iterat(vector<vector<double> > A, vector<double> B, int N, double eps);
 	double okr(double X, double eps);
 };
 
