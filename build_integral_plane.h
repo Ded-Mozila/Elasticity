@@ -16,10 +16,10 @@ public:
     map<int,pair<double,double> >Fi; 
     vector<double> B;
     double ds;                          //Площадь треугольника
-    vector<double> CalcElememt(int row, int column ,int xi , int xj );
-    double Area( int i, int j, int xi, int xj );
+    vector<double> CalcElememt(int row, int column ,int xi , int xj , int number);
+    double Area( int i, int j, int xi, int xj , int number);
     map<int,bool> BuildAreaElm_K( int n, int row, int column);
-    vector<vector<double> > MakePlane(pair<int,int> x);
+    vector<vector<double> > MakePlane(pair<int,int> x, int number);
 };
 
 #endif

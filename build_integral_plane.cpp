@@ -20,19 +20,19 @@ integral::integral(double h, double l , int n, double e, double m)
 	Fi[5] = make_pair(0.0,1/h); 
 	Fi[6] = make_pair(-1/h,1/h);
 }
-vector<vector<double> > integral::MakePlane(pair<int,int> x)
+vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 {
 	vector<vector<double> > Matrix;
 	for (int i = 1; i < N-1; ++i)
 	{
 		for (int j = 0; j < N; ++j)
 		{
-			Matrix.push_back(CalcElememt(i,j,x.first,x.second));
+			Matrix.push_back(CalcElememt(i,j,x.first,x.second,number));
 		}
 	}
 	return Matrix;
 }
-vector<double> integral::CalcElememt(int row, int column ,int xi , int xj )// xi- первая константа для dFik/dxi , xj  - вторая константа для dFi/dxj 
+vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int number)// xi- первая константа для dFik/dxi , xj  - вторая константа для dFi/dxj 
 {
 	map<int, bool> K(BuildAreaElm_K(N,row,column));
 	////////////////////////////////////////////////////////////////
@@ -56,37 +56,37 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj )// xi
 	// k == 0
 	for(int i = 1; i < 7 ; ++i)
 		if( triangl_K[i] == true)
-			T[0] += Area(i,i,xi,xj);//0 - узел начальный i - номер треугольника
+			T[0] += Area(i,i,xi,xj,number);//0 - узел начальный i - номер треугольника
 	// k=1
 	if(triangl_K[1] == true)
-		T[1] += Area(3,1,xi,xj);
+		T[1] += Area(3,1,xi,xj,number);
 	if(triangl_K[6] == true)
-		T[1] += Area(4,6,xi,xj);
+		T[1] += Area(4,6,xi,xj,number);
 	// k=2
 	if(triangl_K[1] == true)
-		T[2] += Area(5,1,xi,xj);
+		T[2] += Area(5,1,xi,xj,number);
 	if(triangl_K[2] == true)
-		T[2] += Area(4,2,xi,xj);
+		T[2] += Area(4,2,xi,xj,number);
 	// k=3
 	if(triangl_K[2] == true)
-		T[3] += Area(6,2,xi,xj);
+		T[3] += Area(6,2,xi,xj,number);
 	if(triangl_K[3] == true)
-		T[3] += Area(5,3,xi,xj);
+		T[3] += Area(5,3,xi,xj,number);
 	// k=4
 	if(triangl_K[3] == true)
-		T[4] += Area(1,3,xi,xj);
+		T[4] += Area(1,3,xi,xj,number);
 	if(triangl_K[4] == true)
-		T[4] += Area(6,4,xi,xj);
+		T[4] += Area(6,4,xi,xj,number);
 	// k=5
 	if(triangl_K[4] == true)
-		T[5] += Area(2,4,xi,xj);
+		T[5] += Area(2,4,xi,xj,number);
 	if(triangl_K[5] == true)
-		T[5] += Area(1,5,xi,xj);
+		T[5] += Area(1,5,xi,xj,number);
 	// K=6
 	if(triangl_K[5] == true)
-		T[6] += Area(3,5,xi,xj);
+		T[6] += Area(3,5,xi,xj,number);
 	if(triangl_K[6] == true)
-		T[6] += Area(2,6,xi,xj);
+		T[6] += Area(2,6,xi,xj,number);
 	// for (int i = 0; i < 7; ++i)
 	// {
 	// 	cout << i << "= " << T[i] << endl;
@@ -154,17 +154,49 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj )// xi
 	}
 	return new_Matrix;
 }
-double integral::Area( int i, int j, int xi, int xj )
+double integral::Area( int i, int j, int xi, int xj , int number)
 {
 	double area = 0.0;
 	if(xi == 1 && xj == 1)
-		area += (E/(1-M*M))*Fi[i].first * Fi[j].first * ds;
+	{
+		if (number == 1)
+		{
+			area += (E/(1-M*M))*Fi[i].first * Fi[j].first * ds;
+		}else if(number == 2)
+		{
+			area += (E/(2*(1-M)))*Fi[i].first * Fi[j].first * ds;
+		}
+	}
 	else if(xi == 1 && xj == 2)
-		area += (E/(2*(1-M)))*Fi[i].first * Fi[j].second * ds;
+	{
+		if (number == 1)
+		{
+			area += (E/(2*(1-M)))*Fi[i].first * Fi[j].second * ds;
+		}else if(number == 2)
+		{
+			area += (E*M/(1-M*M))*Fi[i].first * Fi[j].second * ds;	
+		}
+	}
 	else if(xi == 2 && xj == 1)
-		area += (E*M/(1-M*M))*Fi[i].second * Fi[j].first * ds;
+	{
+		if (number == 1)
+		{
+			area += (E*M/(1-M*M))*Fi[i].second * Fi[j].first * ds;
+		}else if(number == 2)
+		{
+			area += (E/(2*(1-M)))*Fi[i].second * Fi[j].first * ds;
+		}
+	}	
 	else if(xi == 2 && xj == 2)
-		area += (E/(2*(1-M)))*Fi[i].second * Fi[j].second * ds;
+	{
+		if (number == 1)
+		{
+			area += (E/(2*(1-M)))*Fi[i].second * Fi[j].second * ds;
+		}else if(number == 2)
+		{
+			area += (E/(1-M*M))*Fi[i].second * Fi[j].second * ds;
+		}
+	}
 	else area = -1;//неверный вариант
 	return area;
 }
