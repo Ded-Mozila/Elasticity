@@ -12,6 +12,7 @@ integral::integral(double h, double l , int n, double e, double m)
 	N = n;
 	M = m;
 	E = e;
+	G = (E/(2*(1-M)));
 	ds = h*l/2;
 	Fi[1] = make_pair(-1/h,0.0);
 	Fi[2] = make_pair(0.0,-1/h);
@@ -20,6 +21,7 @@ integral::integral(double h, double l , int n, double e, double m)
 	Fi[5] = make_pair(0.0,1/h); 
 	Fi[6] = make_pair(-1/h,1/h);
 }
+
 vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 {
 	vector<vector<double> > Matrix;
@@ -32,14 +34,10 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 	}
 	return Matrix;
 }
+
 vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int number)// xi- первая константа для dFik/dxi , xj  - вторая константа для dFi/dxj 
 {
 	map<int, bool> K(BuildAreaElm_K(N,row,column));
-	////////////////////////////////////////////////////////////////
-	// for (int i = 1; i < 7; ++i)
-	// {
-	// 	cout << i <<"="<< K[i] << endl;
-	// }
 	map<int, bool> triangl_K;
 	//Проверка на существование треугольников
 	for( int i = 1; i < 6; ++i)
@@ -82,16 +80,11 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int 
 		T[5] += Area(2,4,xi,xj,number);
 	if(triangl_K[5] == true)
 		T[5] += Area(1,5,xi,xj,number);
-	// K=6
+	// k=6
 	if(triangl_K[5] == true)
 		T[6] += Area(3,5,xi,xj,number);
 	if(triangl_K[6] == true)
 		T[6] += Area(2,6,xi,xj,number);
-	// for (int i = 0; i < 7; ++i)
-	// {
-	// 	cout << i << "= " << T[i] << endl;
-	// }
-	// cout << ds << endl;
 	vector<double> new_Matrix;
 	for(int i =1; i < N-1; ++i)
 	{
@@ -137,11 +130,11 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int 
 			else if(i == row-1)// 2 3 
 			{
 				//Поиск по столбку
-				if(j == column && T[3] == true)// k = 3
+				if(j == column && K[3] == true)// k = 3
 				{
 					new_Matrix.push_back(T[3]);
 				}
-				else if(j == column+1 && T[2] == true) // k = 2
+				else if(j == column+1 && K[2] == true) // k = 2
 				{
 					new_Matrix.push_back(T[2]);
 				}
@@ -154,6 +147,9 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int 
 	}
 	return new_Matrix;
 }
+
+
+
 double integral::Area( int i, int j, int xi, int xj , int number)
 {
 	double area = 0.0;
@@ -164,14 +160,14 @@ double integral::Area( int i, int j, int xi, int xj , int number)
 			area += (E/(1-M*M))*Fi[i].first * Fi[j].first * ds;
 		}else if(number == 2)
 		{
-			area += (E/(2*(1-M)))*Fi[i].first * Fi[j].first * ds;
+			area += (G/2)*Fi[i].first * Fi[j].first * ds;
 		}
 	}
 	else if(xi == 1 && xj == 2)
 	{
 		if (number == 1)
 		{
-			area += (E/(2*(1-M)))*Fi[i].first * Fi[j].second * ds;
+			area += (G/2)*Fi[i].first * Fi[j].second * ds;
 		}else if(number == 2)
 		{
 			area += (E*M/(1-M*M))*Fi[i].first * Fi[j].second * ds;	
@@ -184,14 +180,14 @@ double integral::Area( int i, int j, int xi, int xj , int number)
 			area += (E*M/(1-M*M))*Fi[i].second * Fi[j].first * ds;
 		}else if(number == 2)
 		{
-			area += (E/(2*(1-M)))*Fi[i].second * Fi[j].first * ds;
+			area += (G/2)*Fi[i].second * Fi[j].first * ds;
 		}
 	}	
 	else if(xi == 2 && xj == 2)
 	{
 		if (number == 1)
 		{
-			area += (E/(2*(1-M)))*Fi[i].second * Fi[j].second * ds;
+			area += (G/2)*Fi[i].second * Fi[j].second * ds;
 		}else if(number == 2)
 		{
 			area += (E/(1-M*M))*Fi[i].second * Fi[j].second * ds;
@@ -253,5 +249,3 @@ map<int,bool> integral::BuildAreaElm_K( int n, int row, int column)
 	}
 	return K;
 }
-
-

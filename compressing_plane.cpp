@@ -38,17 +38,17 @@ void CompressingPlane::MatrixCompit(int x)
 {
 	if(x ==1)
 	{
-		matrixMatrix_NxN[0] = MatrixNxN(make_pair(1,1),1);
-		matrixMatrix_NxN[1] = MatrixNxN(make_pair(2,1),1);
-		matrixMatrix_NxN[2] = MatrixNxN(make_pair(2,2),1);
-		matrixMatrix_NxN[3] = MatrixNxN(make_pair(1,2),1);
+		matrixMatrix_NxN[0] = MatrixNxN(make_pair(1,1),1);//1
+		matrixMatrix_NxN[1] = MatrixNxN(make_pair(2,1),1);//2
+		matrixMatrix_NxN[2] = MatrixNxN(make_pair(2,2),1);//1
+		matrixMatrix_NxN[3] = MatrixNxN(make_pair(1,2),1);//2
 	}
 	else
 	{
-		matrixMatrix_NxN[0] = MatrixNxN(make_pair(2,2),2);
-		matrixMatrix_NxN[1] = MatrixNxN(make_pair(1,2),2);
-		matrixMatrix_NxN[2] = MatrixNxN(make_pair(2,1),2);
-		matrixMatrix_NxN[3] = MatrixNxN(make_pair(1,1),2);
+		matrixMatrix_NxN[0] = MatrixNxN(make_pair(2,2),2);//2
+		matrixMatrix_NxN[1] = MatrixNxN(make_pair(1,2),2);//1
+		matrixMatrix_NxN[2] = MatrixNxN(make_pair(2,1),2);//1
+		matrixMatrix_NxN[3] = MatrixNxN(make_pair(1,1),2);//2
 	}
 }
 

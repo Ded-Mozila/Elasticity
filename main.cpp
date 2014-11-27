@@ -20,19 +20,20 @@ int main()
 	// fclose(stdout);
 
 	Zeidely L_1;
-	//L_1.Iterat(Matrix,new_B,Matrix.size(),1e-09);
+	L_1.Iterat(Matrix,new_B,Matrix.size(),1e-09);
 	// Вывод матрицы 
-	vector<vector<double> >::iterator i;
-	freopen("outtext.txt","w+",stdout);
-	for ( i = MatrixTop.begin(); i != MatrixTop.end(); ++i)
-	{
-		vector<double>::iterator j;
-		for ( j = (*i).begin(); j != (*i).end(); ++j)
-		{
-			cout << *j << ' ';
-		}
-		cout <<  '\n';
-	} 
+	// vector<vector<double> >::iterator i;
+	// freopen("outtext.txt","w+",stdout);
+
+	// for ( i = T1.matrixMatrix_NxN[0].begin(); i != T1.matrixMatrix_NxN[0].end(); ++i)
+	// {
+	// 	vector<double>::iterator j;
+	// 	for ( j = (*i).begin(); j != (*i).end(); ++j)
+	// 	{
+	// 		cout << *j << ' ';
+	// 	}
+	// 	cout <<  '\n';
+	// } 
 	fclose(stdout);
 	// vector<vector<double> >::iterator i;
 	// vector<double>::iterator j;

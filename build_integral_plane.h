@@ -13,6 +13,7 @@ public:
 	int N;
     double E;                           // E-модуль упругости(Юнга)
     double M;                           // M-Коэффициент Пуассона
+    double G;
     map<int,pair<double,double> >Fi; 
     vector<double> B;
     double ds;                          //Площадь треугольника
