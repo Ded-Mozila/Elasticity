@@ -19,15 +19,19 @@ public:
 	double E;		// E-модуль упругости(Юнга)
 	double M;		// M-Коэффициент Пуассона
 	double f;		// f-Объемная сила
+	double p1;
+	double p2;
 	list<double> P;	// P-Поверхностная сила
 	vector<double> B;
 	map<int,vector<vector<double> > > matrixMatrix_NxN;// Матрица содержащяя строки по элементро для каждого элемента сетки
 	CompressingPlane();
+	CompressingPlane(int n);
 	~CompressingPlane();
 	vector<vector<double> > MatrixNxN(pair<int,int> x,int number);
 	vector<vector<double> > Multiplication(int a,int b);
 	void MatrixCompit(int x);
 	vector<vector<double> > InsertMatix(vector<vector<double> > t1,vector<vector<double> > t2);
-
+	vector<double> B_l (int size, double p);
+	vector<double> B_r (int size, double p);
 };
 #endif

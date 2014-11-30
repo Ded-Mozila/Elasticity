@@ -13,7 +13,7 @@ integral::integral(double h, double l , int n, double e, double m)
 	M = m;
 	E = e;
 	G = (E/(2*(1-M)));
-	ds = h*l/2;
+	ds = h*l/2.0;
 	Fi[1] = make_pair(-1/h,0.0);
 	Fi[2] = make_pair(0.0,-1/h);
 	Fi[3] = make_pair(1/h,-1/h);
@@ -193,7 +193,6 @@ double integral::Area( int i, int j, int xi, int xj , int number)
 			area += (E/(1-M*M))*Fi[i].second * Fi[j].second * ds;
 		}
 	}
-	else area = -1;//неверный вариант
 	return area;
 }
 

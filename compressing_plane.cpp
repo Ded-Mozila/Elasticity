@@ -1,16 +1,18 @@
 #include "compressing_plane.h"
 
-CompressingPlane::CompressingPlane()
+CompressingPlane::CompressingPlane(int n)
 {
 		//Начальные настройки для задачи
 		M = 0.3;
-		E = 1e-9;
+		E = 1000000000.0;
 		H = 0.05;
 		F.push_back(2);
 		F.push_back(3);
 		G = (E/(2*(1-M)));
-		N = 21;
+		N = n;
 		f = 0;
+		p1 =100.0;
+		p2 =-100.0;
 		P.push_back(100.0);
 		P.push_back(-100.0);
 }
@@ -28,10 +30,10 @@ vector<vector<double> > CompressingPlane::MatrixNxN(pair<int,int> x, int number)
 
 vector<vector<double> > CompressingPlane::Multiplication(int a,int b)
 {
-	vector<vector<double> > Matrix(matrixMatrix_NxN[a]);
+	vector<vector<double> > Matrix(matrixMatrix_NxN[b]);
 	for (int i = 0; i < Matrix.size(); ++i)
 		for (int j = 0; j < Matrix[i].size(); ++j)
-			Matrix[i][j] += matrixMatrix_NxN[b][i][j];
+			Matrix[i][j] += matrixMatrix_NxN[a][i][j];
 	return Matrix;
 }
 void CompressingPlane::MatrixCompit(int x)
@@ -60,4 +62,29 @@ vector<vector<double> > CompressingPlane::InsertMatix(vector<vector<double> > t1
 	for ( i = Matrix.begin(), ii = t2.begin(); i != Matrix.end(), ii != t2.end(); ++i , ++ii)
 		(*i).insert((*i).end(),(*ii).begin(),(*ii).end());
 	return Matrix;
+}
+vector<double> CompressingPlane::B_l(int size, double p)
+{
+	vector<double> B;
+	for (int i = 0; i < size; ++i)
+	{
+		if(i == 0 )
+			B.push_back(p*H);
+		else
+		if((i)%N == 0)
+			B.push_back(p*H);
+		else B.push_back(0);
+	}
+	return B;
+}
+vector<double> CompressingPlane::B_r (int size, double p)
+{
+	vector<double> B;
+	for (int i = 0; i < size; ++i)
+	{
+		if((i+1)%N == 0)
+			B.push_back(p*H);
+		else B.push_back(0);
+	}
+	return B;
 }
