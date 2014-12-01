@@ -2,12 +2,14 @@
 
 void WriteMatrix_vector(vector<vector<double> > matrix)
 {
+	freopen("matrix.txt","w+",stdout);
 	for (int i = 0; i < matrix.size(); ++i)
 	{
 		for (int j = 0; j < matrix[i].size(); ++j)
 			cout << matrix[i][j] << ' ';
 		cout << endl;
 	}
+	fclose(stdout);
 }
 void WriteMapMatrix_vector(map<int,vector<vector<double> > > matrixMatrix_NxN)
 {
@@ -68,7 +70,7 @@ void genMatrix_plot(vector<double> x , int number,double h, string nameFile)
 		matrix_t1.push_back(line);
 	}
 	matrix_t1.push_back(t0);
-
+	//WriteMatrix_vector(matrix_t1);
 
 	///t2 - x координата
 	vector<vector<double> > matrix_t2;//(number, 0.0)
@@ -90,7 +92,7 @@ void genMatrix_plot(vector<double> x , int number,double h, string nameFile)
 	{
 		for (int j = 0; j < number; ++j)
 		{
-			cout << i*h << " " << j*h << " "  << matrix_t1[j][i] << " " << matrix_t2[j][i] << endl;
+			cout << i*h << " " << j*h << " "  << matrix_t1[i][j] << " " << matrix_t2[i][j] << endl;
 		}
 		cout << endl;
 	}

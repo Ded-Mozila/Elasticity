@@ -12,14 +12,14 @@ integral::integral(double h, double l , int n, double e, double m)
 	N = n;
 	M = m;
 	E = e;
-	G = (E/(2*(1-M)));
-	ds = h*l/2.0;
-	Fi[1] = make_pair(-1/h,0.0);
-	Fi[2] = make_pair(0.0,-1/h);
-	Fi[3] = make_pair(1/h,-1/h);
-	Fi[4] = make_pair(1/h,0.0);
-	Fi[5] = make_pair(0.0,1/h); 
-	Fi[6] = make_pair(-1/h,1/h);
+	G = (E/(2.0*(1.0+m)));
+	ds = h*h/2.0;
+	Fi[1] = make_pair(-1.0/h,0.0);
+	Fi[2] = make_pair(0.0,-1.0/h);
+	Fi[3] = make_pair(1.0/h,-1.0/h);
+	Fi[4] = make_pair(1.0/h,0.0);
+	Fi[5] = make_pair(0.0,1.0/h); 
+	Fi[6] = make_pair(-1.0/h,1.0/h);
 }
 
 vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
@@ -86,7 +86,7 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int 
 	if(triangl_K[6] == true)
 		T[6] += Area(2,6,xi,xj,number);
 	vector<double> new_Matrix;
-	for(int i =1; i < N-1; ++i)
+	for(int i = 1; i < N-1; ++i)
 	{
 		for(int j = 0; j < N ; ++j)
 		{
@@ -145,6 +145,7 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int 
 			}else	new_Matrix.push_back(0);
 		}
 	}
+	
 	return new_Matrix;
 }
 
@@ -153,44 +154,50 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int 
 double integral::Area( int i, int j, int xi, int xj , int number)
 {
 	double area = 0.0;
+	double Ei = (E/(1-M*M));
+
 	if(xi == 1 && xj == 1)
 	{
 		if (number == 1)
 		{
-			area += (E/(1-M*M))*Fi[i].first * Fi[j].first * ds;
-		}else if(number == 2)
+			area = Ei*Fi[i].first * Fi[j].first * ds;
+		}
+		if(number == 2)
 		{
-			area += (G/2)*Fi[i].first * Fi[j].first * ds;
+			area = (G/2.0)*Fi[i].first * Fi[j].first * ds;
 		}
 	}
 	else if(xi == 1 && xj == 2)
 	{
 		if (number == 1)
 		{
-			area += (G/2)*Fi[i].first * Fi[j].second * ds;
-		}else if(number == 2)
+			area = (G/2.0)*Fi[i].first * Fi[j].second * ds;
+		}
+		if(number == 2.0)
 		{
-			area += (E*M/(1-M*M))*Fi[i].first * Fi[j].second * ds;	
+			area = Ei*M*Fi[i].first * Fi[j].second * ds;	
 		}
 	}
 	else if(xi == 2 && xj == 1)
 	{
 		if (number == 1)
 		{
-			area += (E*M/(1-M*M))*Fi[i].second * Fi[j].first * ds;
-		}else if(number == 2)
+			area = Ei*M*Fi[i].second * Fi[j].first * ds;
+		}
+		if(number == 2)
 		{
-			area += (G/2)*Fi[i].second * Fi[j].first * ds;
+			area = (G/2.0)*Fi[i].second * Fi[j].first * ds;
 		}
 	}	
 	else if(xi == 2 && xj == 2)
 	{
 		if (number == 1)
 		{
-			area += (G/2)*Fi[i].second * Fi[j].second * ds;
-		}else if(number == 2)
+			area = (G/2.0)*Fi[i].second * Fi[j].second * ds;
+		}
+		if(number == 2)
 		{
-			area += (E/(1-M*M))*Fi[i].second * Fi[j].second * ds;
+			area = Ei*Fi[i].second * Fi[j].second * ds;
 		}
 	}
 	return area;
@@ -204,47 +211,49 @@ map<int,bool> integral::BuildAreaElm_K( int n, int row, int column)
 	{
 		case 1:
 		{
-			if(( 0 <= row && row < n ) && ( 0 <= column && column < n-1 ))
+			if(( 0 <= row && row < n ) && ( 0 <= column && column <= n-2 ))
 				K[1] = true;
 			else K[1] = false;	
 			break;
 		}
 		case 2:
 		{
-			if(( 1 < row && row < n ) && ( 0 <= column && column < n-1))
+			if(( 0 <= row && row < n ) && ( 0 <= column && column <= n-2))
 				K[2] = true;
 			else K[2] = false;
 			break;
 		}
 		case 3:
 		{
-			if(( 1 < row && row < n ) && ( 0 <= column && column < n ))
+			if(( 0 <= row && row <= n ) && ( 0 <= column && column <= n ))
 				K[3] = true;
 			else K[3] = false; 
 			break;
 		}
 		case 4:
 		{
-			if(( 0 <= row && row < n ) && ( 1 <= column && column < n ))
+			if(( 0 <= row && row <= n ) && ( 1 <= column && column <= n ))
 				K[4] = true;
 			else K[4] = false;	
 			break;
 		}
 		case 5:
 		{
-			if(( 0 <= row && row < n-2 ) && ( 1 <= column && column < n))
+			if(( 0 <= row && row <= n ) && ( 1 <= column && column <= n))
 				K[5] = true;
 			else K[5] = false;
 			break;
 		}
 		case 6:
 		{	
-			if(( 0 <= row && row < n-2 ) && ( 0 <= column && column < n))
+			if(( 0 <= row && row <= n ) && ( 0 <= column && column <= n))
 				K[6] = true;
 			else K[6] = false;
 			break;
 		}
 	
 	}
+	// K[3] = true;
+	// K[6] = true;
 	return K;
 }

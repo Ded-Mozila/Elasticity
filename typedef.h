@@ -1,4 +1,4 @@
 #ifndef TYPRDEF_H
 #define TYPRDEF_H 
-typedef float point; //Точка
+typedef double point; //Точка
 #endif

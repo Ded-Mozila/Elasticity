@@ -1,5 +1,5 @@
 #include "compressing_plane.h"
-
+#include "write.h"
 CompressingPlane::CompressingPlane(int n)
 {
 		//Начальные настройки для задачи
@@ -8,7 +8,7 @@ CompressingPlane::CompressingPlane(int n)
 		H = 0.05;
 		F.push_back(2);
 		F.push_back(3);
-		G = (E/(2*(1-M)));
+		G = (E/(2*(1+M)));
 		N = n;
 		f = 0;
 		p1 =100.0;
@@ -30,10 +30,10 @@ vector<vector<double> > CompressingPlane::MatrixNxN(pair<int,int> x, int number)
 
 vector<vector<double> > CompressingPlane::Multiplication(int a,int b)
 {
-	vector<vector<double> > Matrix(matrixMatrix_NxN[b]);
+	vector<vector<double> > Matrix(matrixMatrix_NxN[a]);
 	for (int i = 0; i < Matrix.size(); ++i)
 		for (int j = 0; j < Matrix[i].size(); ++j)
-			Matrix[i][j] += matrixMatrix_NxN[a][i][j];
+			Matrix[i][j] += matrixMatrix_NxN[b][i][j];
 	return Matrix;
 }
 void CompressingPlane::MatrixCompit(int x)
@@ -45,7 +45,7 @@ void CompressingPlane::MatrixCompit(int x)
 		matrixMatrix_NxN[2] = MatrixNxN(make_pair(2,2),1);//1
 		matrixMatrix_NxN[3] = MatrixNxN(make_pair(1,2),1);//2
 	}
-	else
+	else if(x ==2)
 	{
 		matrixMatrix_NxN[0] = MatrixNxN(make_pair(2,2),2);//2
 		matrixMatrix_NxN[1] = MatrixNxN(make_pair(1,2),2);//1
@@ -68,23 +68,29 @@ vector<double> CompressingPlane::B_l(int size, double p)
 	vector<double> B;
 	for (int i = 0; i < size; ++i)
 	{
-		if(i == 0 )
-			B.push_back(p*H);
-		else
 		if((i)%N == 0)
 			B.push_back(p*H);
+		else if((i+1)%N == 0)
+		{
+			B.push_back(-1*p*H);
+		}
 		else B.push_back(0);
+
 	}
+	// WriteVector(B);
 	return B;
 }
 vector<double> CompressingPlane::B_r (int size, double p)
 {
+
 	vector<double> B;
 	for (int i = 0; i < size; ++i)
 	{
 		if((i+1)%N == 0)
-			B.push_back(p*H);
+		 	B.push_back(p*H);
 		else B.push_back(0);
 	}
+	//WriteVector(B);
 	return B;
+
 }
