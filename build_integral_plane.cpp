@@ -25,7 +25,7 @@ integral::integral(double h, double l , int n, double e, double m)
 vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 {
 	vector<vector<double> > Matrix;
-	for (int i = 1; i < N-1; ++i)
+	for (int i = 0; i < N; ++i)
 	{
 		for (int j = 0; j < N; ++j)
 		{
@@ -37,6 +37,11 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 
 vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int number)// xi- первая константа для dFik/dxi , xj  - вторая константа для dFi/dxj 
 {
+	if(row <= 0 || row >= N-1)
+	{
+		vector<double> Matrixx(N*N,0.0);
+		return Matrixx;
+	}
 	map<int, bool> K(BuildAreaElm_K(N,row,column));
 	map<int, bool> triangl_K;
 	//Проверка на существование треугольников
@@ -86,7 +91,7 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int 
 	if(triangl_K[6] == true)
 		T[6] += Area(2,6,xi,xj,number);
 	vector<double> new_Matrix;
-	for(int i = 1; i < N-1; ++i)
+	for(int i = 0; i < N; ++i)
 	{
 		for(int j = 0; j < N ; ++j)
 		{

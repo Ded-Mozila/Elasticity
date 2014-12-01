@@ -58,35 +58,37 @@ void genMatrix_plot(vector<double> x , int number,double h, string nameFile)
 	vector<vector<double> > matrix_t1;//(number, 0.0)
 	// for (int i = 0; i < number; ++i)
 	// 	matrix_t1[i].resize(number);
-	vector<double> t0(number, 0);
-	matrix_t1.push_back(t0);
-	for (int i = 0; i < number-2; ++i)
+	//vector<double> t0(number, 0);
+	//matrix_t1.push_back(t0);
+	for (int i = 0; i < number; ++i)
 	{
 		vector<double> line;
 		for (int j = 0; j < number; ++j)
 		{
-			line.push_back(x[++k]);
+			line.push_back(x[k]);
+			k +=1;
 		}
 		matrix_t1.push_back(line);
 	}
-	matrix_t1.push_back(t0);
+	//matrix_t1.push_back(t0);
 	//WriteMatrix_vector(matrix_t1);
 
 	///t2 - x координата
 	vector<vector<double> > matrix_t2;//(number, 0.0)
 	// for (int i = 0; i < number; ++i)
 	// 	matrix_t2[i].resize(number);
-	matrix_t2.push_back(t0);
-	for (int i = 0; i < number-2; ++i)
+	//matrix_t2.push_back(t0);
+	for (int i = 0; i < number; ++i)
 	{
 		vector<double> line;
 		for (int j = 0; j < number; ++j)
 		{
-			line.push_back(x[++k]);
+			line.push_back(x[k]);
+			k+=1;
 		}
 		matrix_t2.push_back(line);
 	}
-	matrix_t2.push_back(t0);
+///	matrix_t2.push_back(t0);
 	freopen(nameFile.c_str(),"w+",stdout);
 	for (int i = 0; i < number; ++i)
 	{

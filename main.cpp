@@ -17,14 +17,14 @@ int main(int argc, char const *argv[])
 
 	//Значение л элементов для каждого t1 t2
 	MatrixTop.insert(MatrixTop.end(),MatrixBot.begin(),MatrixBot.end()); // Склеивание 2 матриц t1 and t2
-	vector<double> B =  T1.B_l(MatrixTop.size(), atoi(argv[2]));
-	//vector<double> B_R = T2.B_r(MatrixTop.size()/2,atoi(argv[3]));
-	//B.insert(B.end(),B_R.begin(),B_R.end()); 
+	vector<double> B =  T1.B_l(MatrixTop.size()/2, atoi(argv[2]));
+	vector<double> B_R = T2.B_r(MatrixTop.size()/2,0);
+	B.insert(B.end(),B_R.begin(),B_R.end()); 
 	Zeidely L_1;
 	//WriteVector(B);
 	vector<double> x = L_1.Iterat1(MatrixTop,B,MatrixTop.size(),1e-09);
 	string nameFile(argv[4]);
-	//WriteVector(x);
+	WriteVector(x);
 	WriteMatrix_vector(MatrixTop);
 	genMatrix_plot(x,T1.N, T1.H , nameFile);
 	return 0;

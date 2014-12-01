@@ -4,7 +4,7 @@ CompressingPlane::CompressingPlane(int n)
 {
 		//Начальные настройки для задачи
 		M = 0.3;
-		E = 1000000000.0;
+		E = 1000000000;
 		H = 0.05;
 		F.push_back(2);
 		F.push_back(3);
