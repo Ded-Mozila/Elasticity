@@ -25,7 +25,7 @@ CompressingPlane::~CompressingPlane()
 
 vector<vector<double> > CompressingPlane::MatrixNxN(pair<int,int> x, int number)
 {
-	integral mat(H,H,N,E,M,A);
+	integral mat(H,N,E,M,A);
 	return mat.MakePlane(x, number);
 }
 
@@ -74,19 +74,22 @@ vector<double> CompressingPlane::B_l(int size, double p)
 			if( j>0 && j < N*2-i-1 )
 			{
 				if( i == 0 )
-						{
-							if(j < N )
-								B.push_back(p*H);
-							else B.push_back(p*H/tg(a/(180*M_PI))); 
-						}
-						else if ( i == N-1 )
-						{	
-							B.push_back(p*H*(-1));
-						}else B.push_back(0);
+				{
+					if(j < N )
+						B.push_back(p*H);
+					else B.push_back(p*H/tan(A/(180*M_PI))); 
+				}
+				else 
+				{	
+					if ( i == N-1 )
+					{	
+						B.push_back(p*H*(-1));
+					}
+					else B.push_back(0);
+				}
 			}else B.push_back(0);
 		}
 	}
-	// WriteVector(B);
 	return B;
 }
 vector<double> CompressingPlane::B_r (int size, double p)
@@ -95,7 +98,7 @@ vector<double> CompressingPlane::B_r (int size, double p)
 	vector<double> B;
 	for (int i = 0; i < size; ++i)
 	{
-		else B.push_back(0);
+		B.push_back(0);
 	}
 	return B;
 }

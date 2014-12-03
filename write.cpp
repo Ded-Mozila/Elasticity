@@ -51,50 +51,44 @@ void WriteVector(vector<double> line)
 	}
 	fclose(stdout);
 }
-void genMatrix_plot(vector<double> x , int number,double h, string nameFile)
+void genMatrix_plot(vector<double> x , int number,double h, string nameFile, int a)
 {
 	int k = 0;
 	///t1 - y координата
-	vector<vector<double> > matrix_t1;//(number, 0.0)
-	// for (int i = 0; i < number; ++i)
-	// 	matrix_t1[i].resize(number);
-	//vector<double> t0(number, 0);
-	//matrix_t1.push_back(t0);
+	vector<vector<double> > matrix_t1;
 	for (int i = 0; i < number; ++i)
 	{
 		vector<double> line;
-		for (int j = 0; j < number; ++j)
+		for (int j = 0; j < number*2-i; ++j)
 		{
 			line.push_back(x[k]);
 			k +=1;
 		}
 		matrix_t1.push_back(line);
 	}
-	//matrix_t1.push_back(t0);
-	//WriteMatrix_vector(matrix_t1);
-
 	///t2 - x координата
-	vector<vector<double> > matrix_t2;//(number, 0.0)
-	// for (int i = 0; i < number; ++i)
-	// 	matrix_t2[i].resize(number);
-	//matrix_t2.push_back(t0);
+	vector<vector<double> > matrix_t2;
 	for (int i = 0; i < number; ++i)
 	{
 		vector<double> line;
-		for (int j = 0; j < number; ++j)
+		for (int j = 0; j < number*2-i; ++j)
 		{
 			line.push_back(x[k]);
 			k+=1;
 		}
 		matrix_t2.push_back(line);
 	}
-///	matrix_t2.push_back(t0);
+
 	freopen(nameFile.c_str(),"w+",stdout);
 	for (int i = 0; i < number; ++i)
 	{
-		for (int j = 0; j < number; ++j)
+		for (int j = 0; j < number*2-i; ++j)
 		{
-			cout << i*h << " " << j*h << " "  << matrix_t1[i][j] << " " << matrix_t2[i][j] << endl;
+			cout << i*h << " ";
+			if(j < number )
+				cout << j*h ;
+			else cout << j*h/tan(a/(180*M_PI)); 
+			cout << " "  << matrix_t1[i][j] << " " << matrix_t2[i][j] << endl;
 		}
 		cout << endl;
 	}

@@ -10,7 +10,7 @@ public:
 	integral(double h, int n, double e, double m, int a); //Конструктор с входными данными
 	map<int,pair<double,double> > H;			// Шаг матрицы по х и у для каждой облати
 	int N;										// Количество узлов
-	int a;										// Острый угол у треугольника 
+	int a;										// Угол у треугольника 
 	double E;									// E-модуль упругости(Юнга)
 	double M;									// M-Коэффициент Пуассона
 	double G;
