@@ -7,14 +7,21 @@ integral::~integral()
 {
 }
 
-integral::integral(double h, double l , int n, double e, double m)
+integral::integral(double h, int n, double e, double m, int a)
 {
+	if(a > 90){
+		cout<< "Ошибка ввода угла!\n";
+	}
+	if(n < 2){
+		cout<< "Ошибка ввода количества  узлов!\n";
+	}
 	N = n;
 	M = m;
 	E = e;
 	G = (E/(2.0*(1.0+m)));
-	ds[0] = h*h/2.0;						// Значение площади для первой области 
-	ds[1] = h * (h/tg(a/(180*M_PI))) / 2.0; // Значение площади для второй области
+	ds[0] = h*h/2.0;					// Значение площади для первой области 
+	double	h2 = h/tg(a/(180*M_PI));
+	ds[1] = h * h2 / 2.0; // Значение площади для второй области
 	//значение базисных функций для квадратной области
 	Fi[0][1] = make_pair(-1.0/h,0.0);
 	Fi[0][2] = make_pair(0.0,-1.0/h);
@@ -23,13 +30,14 @@ integral::integral(double h, double l , int n, double e, double m)
 	Fi[0][5] = make_pair(0.0,1.0/h); 
 	Fi[0][6] = make_pair(-1.0/h,1.0/h);
 	//значение базисных функций для треугольной области области
+
+	/// изменить значения для каждого треугольника !!!!!!!!!!!!!!
 	Fi[1][1] = make_pair(-1.0/h,0.0);
 	Fi[1][2] = make_pair(0.0,-1.0/h);
-	Fi[1][3] = make_pair(1.0/h,-1.0/h);
+	Fi[1][3] = make_pair(1.0/h,-1.0/h2);
 	Fi[1][4] = make_pair(1.0/h,0.0);
-	Fi[1][5] = make_pair(0.0,1.0/h); 
-	Fi[1][6] = make_pair(-1.0/h,1.0/h);
-
+	Fi[1][5] = make_pair(0.0,1.0/h2); 
+	Fi[1][6] = make_pair(-1.0/h,1.0/h2);
 }
 
 vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
@@ -37,9 +45,9 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 	vector<vector<double> > Matrix;
 	for (int i = 0; i < N; ++i)
 	{
-		for (int j = 0; j < N; ++j)
+		for (int j = 0; j < N-i; ++j)
 		{
-			Matrix.push_back(CalcElememt(i,j,x.first,x.second,number));
+			Matrix.push_back(CalcElememt(j,i,x.first,x.second,number));
 		}
 	}
 	return Matrix;
@@ -47,7 +55,7 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 
 vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int number)// xi- первая константа для dFik/dxi , xj  - вторая константа для dFi/dxj 
 {
-	if(row <= 0 || row >= N-1)
+	if(row <= 0 || row >= N-column)
 	{
 		vector<double> Matrixx(N*N,0.0);
 		return Matrixx;
