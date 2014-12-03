@@ -47,7 +47,7 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 	{
 		for (int j = 0; j < N*2-i; ++j)//2N - так как область 30 градусов
 		{
-			Matrix.push_back(CalcElememt(j,i,x.first,x.second,number));
+			Matrix.push_back(CalcElememt(j,i,x,number));
 		}
 	}
 	return Matrix;
@@ -61,45 +61,9 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int 
 		return Matrixx;
 	}
 	map<int,pair<bool,int> > K(BuildAreaElm_K(N*2-column,row,column));//Данные у узлах
-	map<int,pair<bool,int> > triangl_K(BuildAreaTriangl_K(map<int,pair<bool,int> > K));//Данные о треугольниках
-	map<int,double> T;//площади треугольников
-	//Зануление всех переменных площадей К
-	for(int j = 0 ; j < 7 ; ++j)
-		T[j] = 0.0;
-	// k == 0
-	for(int i = 1; i < 7 ; ++i)
-		if( triangl_K[i].first == true)
-			T[0] += Area(i,i,xi,xj,number);//0 - узел начальный i - номер треугольника
-	// k=1
-	if(triangl_K[1].first == true)
-		T[1] += Area(3,1,xi,xj,number);
-	if(triangl_K[6].first == true)
-		T[1] += Area(4,6,xi,xj,number);
-	// k=2
-	if(triangl_K[1].first == true)
-		T[2] += Area(5,1,xi,xj,number);
-	if(triangl_K[2].first == true)
-		T[2] += Area(4,2,xi,xj,number);
-	// k=3
-	if(triangl_K[2].first == true)
-		T[3] += Area(6,2,xi,xj,number);
-	if(triangl_K[3].first == true)
-		T[3] += Area(5,3,xi,xj,number);
-	// k=4
-	if(triangl_K[3].first == true)
-		T[4] += Area(1,3,xi,xj,number);
-	if(triangl_K[4].first == true)
-		T[4] += Area(6,4,xi,xj,number);
-	// k=5
-	if(triangl_K[4].first == true)
-		T[5] += Area(2,4,xi,xj,number);
-	if(triangl_K[5].first == true)
-		T[5] += Area(1,5,xi,xj,number);
-	// k=6
-	if(triangl_K[5].first == true)
-		T[6] += Area(3,5,xi,xj,number);
-	if(triangl_K[6].first == true)
-		T[6] += Area(2,6,xi,xj,number);
+	map<int,pair<bool,int> > triangl_K(BuildAreaTriangl_K(K));//Данные о треугольниках
+	map<int,double> T(TriangleArea(triangl_K));//площади треугольников
+
 	vector<double> new_Matrix;
 	for(int j = 0; j < N; ++j)
 	{
@@ -175,44 +139,44 @@ double integral::Area( int i, int j, int xi, int xj , int number, int roomArea)
 	{
 		if (number == 1)
 		{
-			area = Ei*Fi[i].first * Fi[j].first * ds[roomArea];
+			area = Ei*Fi[roomArea][i].first * Fi[roomArea][j].first * ds[roomArea];
 		}
 		if(number == 2)
 		{
-			area = (G/2.0)*Fi[i].first * Fi[j].first * ds[roomArea];
+			area = (G/2.0)*Fi[roomArea][i].first * Fi[roomArea][j].first * ds[roomArea];
 		}
 	}
 	else if(xi == 1 && xj == 2)
 	{
 		if (number == 1)
 		{
-			area = (G/2.0)*Fi[i].first * Fi[j].second * ds[roomArea];
+			area = (G/2.0)*Fi[roomArea][i].first * Fi[roomArea][j].second * ds[roomArea];
 		}
 		if(number == 2.0)
 		{
-			area = Ei*M*Fi[i].first * Fi[j].second * ds[roomArea];	
+			area = Ei*M*Fi[roomArea][i].first * Fi[roomArea][j].second * ds[roomArea];	
 		}
 	}
 	else if(xi == 2 && xj == 1)
 	{
 		if (number == 1)
 		{
-			area = Ei*M*Fi[i].second * Fi[j].first * ds[roomArea];
+			area = Ei*M*Fi[roomArea][i].second * Fi[roomArea][j].first * ds[roomArea];
 		}
 		if(number == 2)
 		{
-			area = (G/2.0)*Fi[i].second * Fi[j].first * ds[roomArea];
+			area = (G/2.0)*Fi[roomArea][i].second * Fi[roomArea][j].first * ds[roomArea];
 		}
 	}	
 	else if(xi == 2 && xj == 2)
 	{
 		if (number == 1)
 		{
-			area = (G/2.0)*Fi[i].second * Fi[j].second * ds[roomArea];
+			area = (G/2.0)*Fi[roomArea][i].second * Fi[roomArea][j].second * ds[roomArea];
 		}
 		if(number == 2)
 		{
-			area = Ei*Fi[i].second * Fi[j].second * ds[roomArea];
+			area = Ei*Fi[roomArea][i].second * Fi[roomArea][j].second * ds[roomArea];
 		}
 	}
 	return area;
@@ -345,3 +309,46 @@ map<int,pair<bool,int> > integral::BuildAreaTriangl_K(map<int,pair<bool,int> > K
 	else triangl_K[6].first = false;
 	return triangl_K;
 }
+
+map<int,double> TriangleArea(map<int,pair<bool,int> > triangl_K, pair<int,int> x, int number)
+{
+	map<int,double> T;//площади треугольников
+	//Зануление всех переменных площадей К
+	for(int j = 0 ; j < 7 ; ++j)
+		T[j] = 0.0;
+	// k == 0
+	for(int i = 1; i < 7 ; ++i)
+		if( triangl_K[i].first == true)
+			T[0] += Area(i,i,x,number,triangl_K[i].second);//0 - узел начальный i - номер треугольника
+	// k=1
+	if(triangl_K[1].first == true)
+		T[1] += Area(3,1,x,number,triangl_K[1].second);
+	if(triangl_K[6].first == true)
+		T[1] += Area(4,6,x,number,triangl_K[6].second);
+	// k=2
+	if(triangl_K[1].first == true)
+		T[2] += Area(5,1,x,number,triangl_K[1].second);
+	if(triangl_K[2].first == true)
+		T[2] += Area(4,2,x,number,triangl_K[2].second);
+	// k=3
+	if(triangl_K[2].first == true)
+		T[3] += Area(6,2,x,number,triangl_K[2].second);
+	if(triangl_K[3].first == true)
+		T[3] += Area(5,3,x,number,triangl_K[3].second);
+	// k=4
+	if(triangl_K[3].first == true)
+		T[4] += Area(1,3,x,number,triangl_K[3].second);
+	if(triangl_K[4].first == true)
+		T[4] += Area(6,4,x,number,triangl_K[4].second);
+	// k=5
+	if(triangl_K[4].first == true)
+		T[5] += Area(2,4,x,number,triangl_K[4].second);
+	if(triangl_K[5].first == true)
+		T[5] += Area(1,5,x,number,triangl_K[5].second);
+	// k=6
+	if(triangl_K[5].first == true)
+		T[6] += Area(3,5,x,number,triangl_K[5].second);
+	if(triangl_K[6].first == true)
+		T[6] += Area(2,6,x,number,triangl_K[6].second);
+	return T;
+}	
