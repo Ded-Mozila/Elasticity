@@ -11,6 +11,6 @@
 #include <iomanip>
 #include <cstring>
 using namespace std;
-
+#define _USE_MATH_DEFINES 
 //
 #include "typedef.h"

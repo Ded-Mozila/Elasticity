@@ -10,13 +10,14 @@ public:
     integral(double h, double l , int n, double e, double m);
 	double l;
 	double H;
-	int N;
+	int N;                              // Количество узлов
+    int a;                              //угол 
     double E;                           // E-модуль упругости(Юнга)
     double M;                           // M-Коэффициент Пуассона
     double G;
-    map<int,pair<double,double> >Fi; 
+    map<int,map<int,pair<double,double> > >Fi; //библиотека базисов для каждого треугольника
     vector<double> B;
-    double ds;                          //Площадь треугольника
+    map<int,double> ds;                          //Площадь треугольника
     vector<double> CalcElememt(int row, int column ,int xi , int xj , int number);
     double Area( int i, int j, int xi, int xj , int number);
     map<int,bool> BuildAreaElm_K( int n, int row, int column);

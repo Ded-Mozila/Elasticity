@@ -13,13 +13,23 @@ integral::integral(double h, double l , int n, double e, double m)
 	M = m;
 	E = e;
 	G = (E/(2.0*(1.0+m)));
-	ds = h*h/2.0;
-	Fi[1] = make_pair(-1.0/h,0.0);
-	Fi[2] = make_pair(0.0,-1.0/h);
-	Fi[3] = make_pair(1.0/h,-1.0/h);
-	Fi[4] = make_pair(1.0/h,0.0);
-	Fi[5] = make_pair(0.0,1.0/h); 
-	Fi[6] = make_pair(-1.0/h,1.0/h);
+	ds[0] = h*h/2.0;						// Значение площади для первой области 
+	ds[1] = h * (h/tg(a/(180*M_PI))) / 2.0; // Значение площади для второй области
+	//значение базисных функций для квадратной области
+	Fi[0][1] = make_pair(-1.0/h,0.0);
+	Fi[0][2] = make_pair(0.0,-1.0/h);
+	Fi[0][3] = make_pair(1.0/h,-1.0/h);
+	Fi[0][4] = make_pair(1.0/h,0.0);
+	Fi[0][5] = make_pair(0.0,1.0/h); 
+	Fi[0][6] = make_pair(-1.0/h,1.0/h);
+	//значение базисных функций для треугольной области области
+	Fi[1][1] = make_pair(-1.0/h,0.0);
+	Fi[1][2] = make_pair(0.0,-1.0/h);
+	Fi[1][3] = make_pair(1.0/h,-1.0/h);
+	Fi[1][4] = make_pair(1.0/h,0.0);
+	Fi[1][5] = make_pair(0.0,1.0/h); 
+	Fi[1][6] = make_pair(-1.0/h,1.0/h);
+
 }
 
 vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
