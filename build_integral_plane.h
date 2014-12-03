@@ -18,9 +18,11 @@ public:
 	vector<double> B;							// Вектор свободных членов
 	map<int,double> ds;							//Площадь треугольника для каждой области
 	vector<double> CalcElememt(int row, int column ,int xi , int xj , int number); // нахождение вектора матрицы с заданным конгечным элементом
-	double Area( int i, int j, int xi, int xj , int number);	//Расчет площади треугольника
-	map<int,bool> BuildAreaElm_K( int n, int row, int column);	// Расчет конечной области конечного эленмента для данного узла (какие узлы входят в облать)
+	double Area( int i, int j, int xi, int xj, int number, int roomArea);	//Расчет площади треугольника
+	map<int,pair<bool,int> > BuildAreaElm_K( int n, int row, int column);	// Расчет конечной области конечного эленмента для данного узла (какие узлы входят в облать)
 	vector<vector<double> > MakePlane(pair<int,int> x, int number);// Создание глобальной(1/4 матрицы жескости) матрицы жескости
+	map<int,pair<bool,int> > BuildAreaTriangl_K(map<int,pair<bool,int> > K); //Определение существующих треугольников и областям которым они пренадлежат
+	map<int,double> TriangleArea(map<int,pair<bool,int> > triangl_K); //Расчет площади треугольников для каждого из узлов
 };
 
 #endif

@@ -45,7 +45,7 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 	vector<vector<double> > Matrix;
 	for (int i = 0; i < N; ++i)
 	{
-		for (int j = 0; j < N-i; ++j)
+		for (int j = 0; j < N*2-i; ++j)//2N - так как область 30 градусов
 		{
 			Matrix.push_back(CalcElememt(j,i,x.first,x.second,number));
 		}
@@ -55,63 +55,55 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 
 vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int number)// xi- первая константа для dFik/dxi , xj  - вторая константа для dFi/dxj 
 {
-	if(row <= 0 || row >= N-column)
+	if(row <= 0 || row >= N*2-column)
 	{
-		vector<double> Matrixx(N*N,0.0);
+		vector<double> Matrixx((N*2-column)*N,0.0);// Создание пустой таблицы
 		return Matrixx;
 	}
-	map<int, bool> K(BuildAreaElm_K(N,row,column));
-	map<int, bool> triangl_K;
-	//Проверка на существование треугольников
-	for( int i = 1; i < 6; ++i)
-		if( K[i] == true && K[i+1] == true )
-			triangl_K[i] = true;
-		else triangl_K[i] = false;
-	if( K[6] == true && K[1] == true )
-		triangl_K[6] = true;
-	else triangl_K[6] = false;
+	map<int,pair<bool,int> > K(BuildAreaElm_K(N*2-column,row,column));//Данные у узлах
+	map<int,pair<bool,int> > triangl_K(BuildAreaTriangl_K(map<int,pair<bool,int> > K));//Данные о треугольниках
 	map<int,double> T;//площади треугольников
 	//Зануление всех переменных площадей К
 	for(int j = 0 ; j < 7 ; ++j)
 		T[j] = 0.0;
 	// k == 0
 	for(int i = 1; i < 7 ; ++i)
-		if( triangl_K[i] == true)
+		if( triangl_K[i].first == true)
 			T[0] += Area(i,i,xi,xj,number);//0 - узел начальный i - номер треугольника
 	// k=1
-	if(triangl_K[1] == true)
+	if(triangl_K[1].first == true)
 		T[1] += Area(3,1,xi,xj,number);
-	if(triangl_K[6] == true)
+	if(triangl_K[6].first == true)
 		T[1] += Area(4,6,xi,xj,number);
 	// k=2
-	if(triangl_K[1] == true)
+	if(triangl_K[1].first == true)
 		T[2] += Area(5,1,xi,xj,number);
-	if(triangl_K[2] == true)
+	if(triangl_K[2].first == true)
 		T[2] += Area(4,2,xi,xj,number);
 	// k=3
-	if(triangl_K[2] == true)
+	if(triangl_K[2].first == true)
 		T[3] += Area(6,2,xi,xj,number);
-	if(triangl_K[3] == true)
+	if(triangl_K[3].first == true)
 		T[3] += Area(5,3,xi,xj,number);
 	// k=4
-	if(triangl_K[3] == true)
+	if(triangl_K[3].first == true)
 		T[4] += Area(1,3,xi,xj,number);
-	if(triangl_K[4] == true)
+	if(triangl_K[4].first == true)
 		T[4] += Area(6,4,xi,xj,number);
 	// k=5
-	if(triangl_K[4] == true)
+	if(triangl_K[4].first == true)
 		T[5] += Area(2,4,xi,xj,number);
-	if(triangl_K[5] == true)
+	if(triangl_K[5].first == true)
 		T[5] += Area(1,5,xi,xj,number);
 	// k=6
-	if(triangl_K[5] == true)
+	if(triangl_K[5].first == true)
 		T[6] += Area(3,5,xi,xj,number);
-	if(triangl_K[6] == true)
+	if(triangl_K[6].first == true)
 		T[6] += Area(2,6,xi,xj,number);
 	vector<double> new_Matrix;
-	for(int i = 0; i < N; ++i)
+	for(int j = 0; j < N; ++j)
 	{
-		for(int j = 0; j < N ; ++j)
+		for(int i = 0; i < N*2-j ; ++i)
 		{
 			// Проверка по строкам
 			if(i == row)//element 4 0 1
@@ -174,7 +166,7 @@ vector<double> integral::CalcElememt(int row, int column ,int xi , int xj , int 
 
 
 
-double integral::Area( int i, int j, int xi, int xj , int number)
+double integral::Area( int i, int j, int xi, int xj , int number, int roomArea)
 {
 	double area = 0.0;
 	double Ei = (E/(1-M*M));
@@ -183,100 +175,173 @@ double integral::Area( int i, int j, int xi, int xj , int number)
 	{
 		if (number == 1)
 		{
-			area = Ei*Fi[i].first * Fi[j].first * ds;
+			area = Ei*Fi[i].first * Fi[j].first * ds[roomArea];
 		}
 		if(number == 2)
 		{
-			area = (G/2.0)*Fi[i].first * Fi[j].first * ds;
+			area = (G/2.0)*Fi[i].first * Fi[j].first * ds[roomArea];
 		}
 	}
 	else if(xi == 1 && xj == 2)
 	{
 		if (number == 1)
 		{
-			area = (G/2.0)*Fi[i].first * Fi[j].second * ds;
+			area = (G/2.0)*Fi[i].first * Fi[j].second * ds[roomArea];
 		}
 		if(number == 2.0)
 		{
-			area = Ei*M*Fi[i].first * Fi[j].second * ds;	
+			area = Ei*M*Fi[i].first * Fi[j].second * ds[roomArea];	
 		}
 	}
 	else if(xi == 2 && xj == 1)
 	{
 		if (number == 1)
 		{
-			area = Ei*M*Fi[i].second * Fi[j].first * ds;
+			area = Ei*M*Fi[i].second * Fi[j].first * ds[roomArea];
 		}
 		if(number == 2)
 		{
-			area = (G/2.0)*Fi[i].second * Fi[j].first * ds;
+			area = (G/2.0)*Fi[i].second * Fi[j].first * ds[roomArea];
 		}
 	}	
 	else if(xi == 2 && xj == 2)
 	{
 		if (number == 1)
 		{
-			area = (G/2.0)*Fi[i].second * Fi[j].second * ds;
+			area = (G/2.0)*Fi[i].second * Fi[j].second * ds[roomArea];
 		}
 		if(number == 2)
 		{
-			area = Ei*Fi[i].second * Fi[j].second * ds;
+			area = Ei*Fi[i].second * Fi[j].second * ds[roomArea];
 		}
 	}
 	return area;
 }
 
-map<int,bool> integral::BuildAreaElm_K( int n, int row, int column)
+map<int,pair<bool,int> > integral::BuildAreaElm_K( int n, int row, int column)
 {
-	map<int,bool> K;
+	map<int,pair<bool,int> > K;
 	for(int i = 1 ; i < 7 ; ++i)
 	switch(i)
 	{
 		case 1:
 		{
 			if(( 0 <= row && row < n ) && ( 0 <= column && column <= n-2 ))
-				K[1] = true;
-			else K[1] = false;	
+			{	
+				K[1].first = true;
+				// if(row-1 < N-1)
+				// 	K[1].second = 0;
+				// else K[1].second = 1;
+			}
+			else K[1].first = false;	
 			break;
 		}
 		case 2:
 		{
 			if(( 0 <= row && row < n ) && ( 0 <= column && column <= n-2))
-				K[2] = true;
-			else K[2] = false;
+			{
+				K[2].first = true;
+				if(row-1 < N-1)
+					K[2].second = 0;
+				else K[2].second = 1;
+			}	
+			else K[2].first = false;
 			break;
 		}
 		case 3:
 		{
 			if(( 0 <= row && row <= n ) && ( 0 <= column && column <= n ))
-				K[3] = true;
-			else K[3] = false; 
+			{
+				K[3].first = true;
+				if(row-1 < N-1)
+					K[3].second = 0;
+				else K[3].second = 1;
+			}
+			else K[3].first = false; 
 			break;
 		}
 		case 4:
 		{
 			if(( 0 <= row && row <= n ) && ( 1 <= column && column <= n ))
-				K[4] = true;
-			else K[4] = false;	
+			{
+				K[4].first = true;
+				//лежат на границе изменения конечного элемента
+				// if(row < N)
+				// 	K[4].second = 0;
+				// else K[4].second = 1;
+			}
+			else K[4].first = false;	
 			break;
 		}
 		case 5:
 		{
 			if(( 0 <= row && row <= n ) && ( 1 <= column && column <= n))
-				K[5] = true;
-			else K[5] = false;
+			{
+				K[5].first = true;
+				if(row+1 < N)
+					K[5].second = 0;
+				else K[5].second = 1;
+			}
+			else K[5].first = false;
 			break;
 		}
 		case 6:
 		{	
 			if(( 0 <= row && row <= n ) && ( 0 <= column && column <= n))
-				K[6] = true;
-			else K[6] = false;
+			{
+				K[6].first = true;
+				if(row+1 < N)
+					K[6].second = 0;
+				else K[6].second = 1;
+			}
+			else K[6].first = false;
 			break;
 		}
 	
 	}
-	// K[3] = true;
-	// K[6] = true;
 	return K;
+}
+
+map<int,pair<bool,int> > integral::BuildAreaTriangl_K(map<int,pair<bool,int> > K)
+{
+	map<int,pair<bool,int> > triangl_K;//Данные о треугольниках
+	//Проверка на существование треугольников
+	if( K[1].first == true && K[2].first == true )
+	{
+		triangl_K[1].first = true;
+		triangl_K[1].second = K[2].second;
+	}
+	else triangl_K[1].first = false;
+	if( K[2].first == true && K[3].first == true )
+	{
+		triangl_K[2].first = true;
+		triangl_K[2].second = K[2].second;
+	}
+	else triangl_K[2].first = false;
+	if( K[3].first == true && K[4].first == true )
+	{
+		triangl_K[3].first = true;
+		triangl_K[3].second = K[3].second;
+	}
+	else triangl_K[3].first = false;
+	if( K[4].first == true && K[5].first == true )
+	{
+		triangl_K[4].first = true;
+		triangl_K[4].second = K[5].second;
+	}
+	else triangl_K[4].first = false;
+	if( K[5].first == true && K[6].first == true )
+	{
+		triangl_K[5].first = true;
+		triangl_K[5].second = K[5].second;
+	}
+	else triangl_K[5].first = false;
+
+	if( K[6].first == true && K[1].first == true )
+	{
+		triangl_K[6].first = true;
+		triangl_K[6].second = K[6].second;
+	}
+	else triangl_K[6].first = false;
+	return triangl_K;
 }
