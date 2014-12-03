@@ -107,48 +107,37 @@ vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, in
 {
 	vector<double> next(B.size(),0);
 	vector<double> curr(B);
-
 	int count = 1;
 	while( true )
 	{   
 	    for( int i = 0; i < N; i++ )
-	    {
-	        
+	    {        
 	        bool a = true;
 	        for( int j = 0; j < N; j++ )
-	            if( A[i][j] != 0 ) a = false;
-	        
+	            if( A[i][j] != 0 ) a = false;        
 	        if( a )
 	        {
 	            next[i] = 0;
 	            continue;
-	        }
-	        
+	        }    
 	        double var = 0.0;
-	        //oFile << A[i][N] << " - ";
 	        for( int j = 0; j < i; j++ )
 	        {
 	            var += ( A[i][j] * next[j] );
-	            //oFile << A[i][j] << " * " << next[j] << " + ";
 	        }
 	        for( int j = i + 1; j < N; j++ )
 	        {
 	            var += ( A[i][j] * curr[j] );
-	            //oFile << A[i][j] << " * " << curr[j] << " + ";
 	        }
 	        next[i] = ( B[i] - var ) / A[i][i];
-	        //oFile << " / " << A[i][i] << " = " << next[i] << endl;
 	    }
 	    //проверка
 	    if( converge( curr, next, eps, N, count ) ) break;
-	    
 	    for( int i = 0; i < N; i++ )
 	        curr[i] = next[i];
 	    count++;
-	    
 	}   
 	return next; 
-
 }
 vector<double> Zeidely::Iterat2(vector<vector<double> > A, vector<double> B, int N, double eps)
 {

@@ -86,9 +86,10 @@ vector<double> CompressingPlane::B_r (int size, double p)
 	vector<double> B;
 	for (int i = 0; i < size; ++i)
 	{
-		if((i+1)%N == 0)
-		 	B.push_back(p*H);
-		else B.push_back(0);
+		// if((i+1)%N == 0)
+		//  	B.push_back(p*H);
+		// else 
+			B.push_back(0);
 	}
 	//WriteVector(B);
 	return B;

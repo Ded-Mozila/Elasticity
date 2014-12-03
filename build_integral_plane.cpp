@@ -258,7 +258,5 @@ map<int,bool> integral::BuildAreaElm_K( int n, int row, int column)
 		}
 	
 	}
-	// K[3] = true;
-	// K[6] = true;
 	return K;
 }

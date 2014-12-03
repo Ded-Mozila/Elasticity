@@ -1,5 +1,4 @@
 #include "compressing_plane.h"
-#include "func.h"
 #include "zeidely.h"
 #include "build_integral_plane.h"
 #include "write.h"
@@ -21,11 +20,8 @@ int main(int argc, char const *argv[])
 	vector<double> B_R = T2.B_r(MatrixTop.size()/2,0);
 	B.insert(B.end(),B_R.begin(),B_R.end()); 
 	Zeidely L_1;
-	//WriteVector(B);
 	vector<double> x = L_1.Iterat1(MatrixTop,B,MatrixTop.size(),1e-09);
 	string nameFile(argv[4]);
-	WriteVector(x);
-	WriteMatrix_vector(MatrixTop);
 	genMatrix_plot(x,T1.N, T1.H , nameFile);
 	return 0;
 }
