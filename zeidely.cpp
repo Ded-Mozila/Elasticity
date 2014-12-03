@@ -116,7 +116,11 @@ vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, in
 	        
 	        bool a = true;
 	        for( int j = 0; j < N; j++ )
-	            if( A[i][j] != 0 ) a = false;
+	            if( A[i][j] != 0 ) 
+	            	{
+	            		a = false;
+	            		break;
+	            	}
 	        
 	        if( a )
 	        {

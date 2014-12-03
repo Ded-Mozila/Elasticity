@@ -80,15 +80,19 @@ void genMatrix_plot(vector<double> x , int number,double h, string nameFile, int
 	}
 
 	freopen(nameFile.c_str(),"w+",stdout);
+	double h2 = h/tan(a*M_PI/180);
+	double dh = 0;
 	for (int i = 0; i < number; ++i)
 	{
+		dh = 0;
 		for (int j = 0; j < number*2-i; ++j)
 		{
-			cout << i*h << " ";
+			// cout 
+			cout << dh;
 			if(j < number )
-				cout << j*h ;
-			else cout << j*h/tan(a/(180*M_PI)); 
-			cout << " "  << matrix_t1[i][j] << " " << matrix_t2[i][j] << endl;
+					dh+=h;
+			else dh+=h2; 
+			cout  << " " << i*h << " " << (-1)*matrix_t1[i][j] << " " << matrix_t2[i][j]  << endl;
 		}
 		cout << endl;
 	}

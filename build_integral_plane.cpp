@@ -20,7 +20,7 @@ integral::integral(double h, int n, double e, double m, int a)
 	E = e;
 	G = (E/(2.0*(1.0+m)));
 	ds[0] = h*h/2.0;					// Значение площади для первой области 
-	double	h2 = h/tan(a/(180*M_PI));
+	double	h2 = h/tan(a*M_PI/(180));
 	ds[1] = h * h2 / 2.0; // Значение площади для второй области
 	//значение базисных функций для квадратной области
 	Fi[0][1] = make_pair(-1.0/h,0.0);
@@ -57,7 +57,10 @@ vector<double> integral::CalcElememt(int row, int column ,pair<int,int> x, int n
 {
 	if(row <= 0 || row >= N*2-column)
 	{
-		vector<double> Matrixx((N*2-column)*N,0.0);// Создание пустой таблицы
+		vector<double> Matrixx;// Создание пустой таблицы
+		for(int j = 0; j < N; ++j)
+			for(int i = 0; i < N*2-j ; ++i)
+					Matrixx.push_back(0);
 		return Matrixx;
 	}
 	map<int,pair<bool,int> > K(BuildAreaElm_K(N*2-column,row,column));//Данные у узлах

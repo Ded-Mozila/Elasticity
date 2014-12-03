@@ -77,7 +77,7 @@ vector<double> CompressingPlane::B_l(int size, double p)
 				{
 					if(j < N )
 						B.push_back(p*H);
-					else B.push_back(p*H/tan(A/(180*M_PI))); 
+					else B.push_back(p*H/tan(A*M_PI/(180))); 
 				}
 				else 
 				{	
