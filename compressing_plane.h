@@ -19,6 +19,7 @@ public:
 	double E;		// E-модуль упругости(Юнга)
 	double M;		// M-Коэффициент Пуассона
 	double f;		// f-Объемная сила
+	int A; 			// а - острый угол трапеции
 	double p1;
 	double p2;
 	list<double> P;	// P-Поверхностная сила
