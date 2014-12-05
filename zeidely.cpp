@@ -6,92 +6,7 @@
  Zeidely::~Zeidely()
 {
 }
-// double Zeidely::FirstNorm(vector<vector<double> > A)
-// {
-// 	double sum = 0, subSum;
-// 	vector<vector<double> >::iterator i;
-// 	vector<double>::iterator  j;
-// 	for (i = A.begin(); i != A.end(); ++i)
-// 	{
-// 		subSum = 0;
-// 		for (j = (*i).begin(); j != (*i).end(); ++j)
-// 			subSum += abs(*j);
-// 		if(subSum > sum)
-// 			sum = subSum;
-// 	}
-// 	return sum;
-// }
 
-// double Zeidely::SecondNorm(vector<vector<double> > A)
-// {
-// 	double sum = 0, subSum;
-// 	vector<vector<double> >::iterator i;
-// 	vector<double>::iterator  j;
-// 	for (i = A.begin(); i != A.end(); ++i)
-// 	{
-// 		subSum = 0;
-// 		for (j = (*i).begin(); j != (*i).end(); ++j)         
-// 			subSum += abs(*j);
-// 		if(subSum > sum) 
-// 			sum = subSum;
-// 	}
-// 	return sum;
-// }
-
-// double Zeidely::ThirdNorm(vector<vector<double> > A)
-// {
-// 	double sum = 0;
-// 	vector<vector<double> >::iterator i;
-// 	vector<double>::iterator  j;
-// 	for (i = A.begin(); i != A.end(); ++i)
-// 		for (j = (*i).begin(); j != (*i).end(); ++j)
-// 			sum += ((*j) * (*j));
-// 	sum = sqrt(sum);
-// 	return sum;
-// }
-// void printMatrix (string message, vector <long double> matrix, size_t size) {
-// 	size_t i, j;
-
-// 	cout << "\n" << message << ":\n" << endl;
-
-// 	for (i = 0 ;  i < size;  ++i) {
-// 		cout << setw(8) << setprecision(3) << fixed << matrix[i];
-
-// 		if ( ( i + 1 ) % 3 == 0 )
-// 			cout << endl;
-// 	}
-// }
-
-
-// double Zeidely::okr(double X, double eps)
-// {
-// 	int i = 0;
-// 	while (eps != 1) {
-// 		i++;
-// 		eps *= 10;
-// 	}
-// 	int okr = pow(double(10), i);
-// 	X = int(X * okr + 0.5) / double(okr);
-// 	return X;
-// }
-
-// void printMatrix (string message, vector < vector < double> > matrix, size_t size_col, size_t size_row) {
-// 	size_t i, j;
-
-// 	cout << "\n" << message << ":\n" << endl;
-
-// 	for (i = 0 ;  i < size_col;  ++i) {
-// 		for(j = 0; j < size_row;  ++j) {
-// 			cout << setw(8) << setprecision(3) << fixed << matrix[i][j];
-
-// 			if ( ( j + 1 ) % size_row == 0 )
-// 				cout << endl;
-// 		}
-
-// 		if ( ( i + 1 ) % size_col == 0 )
-// 			cout << endl;
-// 	}
-// }
 bool converge(vector<double> curr, vector<double> next, double eps, int N, int count )
 {
     double norm = 0.0;
@@ -114,7 +29,11 @@ vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, in
 	    {        
 	        bool a = true;
 	        for( int j = 0; j < N; j++ )
-	            if( A[i][j] != 0 ) a = false;        
+	            if( A[i][j] != 0 ) 
+	            	{
+	            		a = false;
+	            		break;
+	            	}
 	        if( a )
 	        {
 	            next[i] = 0;
