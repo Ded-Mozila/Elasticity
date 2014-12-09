@@ -59,7 +59,7 @@ void genMatrix_plot(vector<double> x , int number,double h, string nameFile, int
 	for (int i = 0; i < number; ++i)
 	{
 		vector<double> line;
-		for (int j = 0; j < number*2-i; ++j)
+		for (int j = 0; j < number*2-i-1; ++j)
 		{
 			line.push_back(x[k]);
 			k +=1;
@@ -71,7 +71,7 @@ void genMatrix_plot(vector<double> x , int number,double h, string nameFile, int
 	for (int i = 0; i < number; ++i)
 	{
 		vector<double> line;
-		for (int j = 0; j < number*2-i; ++j)
+		for (int j = 0; j < number*2-i-1; ++j)
 		{
 			line.push_back(x[k]);
 			k+=1;
@@ -85,7 +85,7 @@ void genMatrix_plot(vector<double> x , int number,double h, string nameFile, int
 	for (int i = 0; i < number; ++i)
 	{
 		dh = 0;
-		for (int j = 0; j < number*2-i; ++j)
+		for (int j = 0; j < number*2-i-1; ++j)
 		{
 			// cout 
 			cout << dh;

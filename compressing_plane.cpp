@@ -69,9 +69,9 @@ vector<double> CompressingPlane::B_l(int size, double p)
 	vector<double> B;
 	for (int i = 0; i < N; ++i)
 	{
-		for (int j = 0; j < N*2-i ; ++j)
+		for (int j = 0; j < N*2-i-1 ; ++j)
 		{
-			if( j>0 && j < N*2-i-1 )
+			if( j>0 && j < N*2-i-2 )
 			{
 				if( i == 0 )
 				{
@@ -95,9 +95,8 @@ vector<double> CompressingPlane::B_l(int size, double p)
 vector<double> CompressingPlane::B_r (int size, double p)
 {
 	vector<double> B;
-	for (int i = 0; i < size; ++i)
-	{
-		B.push_back(0);
-	}
+	for (int i = 0; i < N; ++i)
+		for (int j = 0; j < (N*2-i-1) ; ++j)
+			B.push_back(0);
 	return B;
 }

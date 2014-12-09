@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
 	Zeidely L_1;
 	vector<double> x = L_1.Iterat1(MatrixTop,B,MatrixTop.size(),1e-09);
 	string nameFile(argv[4]);
-	WriteVector(x);
+	//WriteVector(x);
 	WriteMatrix_vector(MatrixTop);
 	genMatrix_plot(x,T1.N, T1.H , nameFile, atoi(argv[2]));
 	return 0;

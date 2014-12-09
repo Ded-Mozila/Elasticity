@@ -45,7 +45,7 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 	vector<vector<double> > Matrix;
 	for (int i = 0; i < N; ++i)
 	{
-		for (int j = 0; j < N*2-i; ++j)//2N - так как область 30 градусов
+		for (int j = 0; j < (N*2-i-1); ++j)//2N-1 - так как область 30 градусов
 		{
 			Matrix.push_back(CalcElememt(j,i,x,number));
 		}
@@ -55,11 +55,11 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 
 vector<double> integral::CalcElememt(int row, int column ,pair<int,int> x, int number)// xi- первая константа для dFik/dxi , xj  - вторая константа для dFi/dxj 
 {
-	if(column <= 0 || column >= N*2-column)
+	if(row <= 0 || row >= (N*2-2)-column)
 	{
 		vector<double> Matrixx;// Создание пустой таблицы
 		for(int j = 0; j < N; ++j)
-			for(int i = 0; i < N*2-j ; ++i)
+			for(int i = 0; i < (N*2-j-1) ; ++i)
 					Matrixx.push_back(0);
 		return Matrixx;
 	}
@@ -70,7 +70,7 @@ vector<double> integral::CalcElememt(int row, int column ,pair<int,int> x, int n
 	vector<double> new_Matrix;
 	for(int j = 0; j < N; ++j)
 	{
-		for(int i = 0; i < N*2-j ; ++i)
+		for(int i = 0; i < (2*N-1-j) ; ++i)
 		{
 			// Проверка по строкам
 			if(i == row)//element 4 0 1
@@ -192,7 +192,7 @@ map<int,pair<bool,int> > integral::BuildAreaElm_K( int n, int row, int column)
 	{
 		case 1:
 		{
-			if(( 0 <= row && row < n ) && ( 0 <= column && column <= n-2 ))
+			if(( /*0 <= row &&*/ row < N*2-1-column) && ( /*0 <= column &&*/ column < N-1))
 			{	
 				K[1].first = true;
 				// if(row-1 < N-1)
@@ -204,7 +204,7 @@ map<int,pair<bool,int> > integral::BuildAreaElm_K( int n, int row, int column)
 		}
 		case 2:
 		{
-			if(( 0 <= row && row < n ) && ( 0 <= column && column <= n-2))
+			if(( 0 < row /*&& row < N*2-1-column*/ ) && ( /*0 <= column &&*/ column < N-1))
 			{
 				K[2].first = true;
 				if(row-1 < N-1)
@@ -216,7 +216,7 @@ map<int,pair<bool,int> > integral::BuildAreaElm_K( int n, int row, int column)
 		}
 		case 3:
 		{
-			if(( 0 <= row && row <= n ) && ( 0 <= column && column <= n ))
+			if(( 0 < row /*&& row <= n */) /*&& ( 0 <= column && column <= n )*/)
 			{
 				K[3].first = true;
 				if(row-1 < N-1)
@@ -228,7 +228,7 @@ map<int,pair<bool,int> > integral::BuildAreaElm_K( int n, int row, int column)
 		}
 		case 4:
 		{
-			if(( 0 <= row && row <= n ) && ( 1 <= column && column <= n ))
+			if(/*( 0 <= row && row <= n ) && */( 1 <= column /*&& column <= n*/ ))
 			{
 				K[4].first = true;
 				//лежат на границе изменения конечного элемента
@@ -241,7 +241,7 @@ map<int,pair<bool,int> > integral::BuildAreaElm_K( int n, int row, int column)
 		}
 		case 5:
 		{
-			if(( 0 <= row && row <= n ) && ( 1 <= column && column <= n))
+			if(/*( 0 <= row && row <= n ) && */( 0 < column /*&& column <= n*/))
 			{
 				K[5].first = true;
 				if(row+1 < N)
@@ -253,7 +253,7 @@ map<int,pair<bool,int> > integral::BuildAreaElm_K( int n, int row, int column)
 		}
 		case 6:
 		{	
-			if(( 0 <= row && row <= n ) && ( 0 <= column && column <= n))
+			if(( /*0 <= row && */row < N*2-1-column ) /*&& ( 0 <= column && column <= n)*/)
 			{
 				K[6].first = true;
 				if(row+1 < N)
