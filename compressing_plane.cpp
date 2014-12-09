@@ -71,7 +71,7 @@ vector<double> CompressingPlane::B_l(int size, double p)
 	{
 		for (int j = 0; j < N*2-i-1 ; ++j)
 		{
-			if( j>0 && j < N*2-i-2 )
+			if( j>=0 && j < N*2-i-2 )
 			{
 				if( i == 0 )
 				{
