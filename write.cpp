@@ -89,7 +89,7 @@ void genMatrix_plot(vector<double> x , int number,double h, string nameFile, int
 		{
 			// cout 
 			cout << dh;
-			if(j < number )
+			if(j < (number-1) )
 					dh+=h;
 			else dh+=h2; 
 			cout  << " " << i*h << " " << (-1)*matrix_t1[i][j] << " " << matrix_t2[i][j]  << endl;
