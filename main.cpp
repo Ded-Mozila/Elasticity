@@ -6,6 +6,8 @@
 
 int main(int argc, char const *argv[])
 {
+	// integral tq1(0.05 ,10,1,1,30);
+	// tq1.CalcElememt(atoi(argv[1]),atoi(argv[2]),make_pair(atoi(argv[3]),atoi(argv[4])),atoi(argv[5]));
 	CompressingPlane T1(atoi(argv[1]),atoi(argv[2]));
 	T1.MatrixCompit(1);
 	CompressingPlane T2(atoi(argv[1]),atoi(argv[2]));

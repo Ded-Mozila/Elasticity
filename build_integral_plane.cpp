@@ -18,16 +18,17 @@ integral::integral(double h, int n, double e, double m, int a)
 	N = n;
 	M = m;
 	E = e;
-	G = (E/(2.0*(1.0+m)));
+	G = (E/(2.0*(1.0 + m)));
 	ds[0] = h*h/2.0;					// Значение площади для первой области 
-	double	h2 = h/tan(a*M_PI/(180));
+	double	h2 = h / tan(a*M_PI/(180));
+	cout << h2 << endl;
 	ds[1] = h * h2 / 2.0; // Значение площади для второй области
 	//значение базисных функций для квадратной области
 	Fi[0][1] = make_pair(-1.0/h,0.0);
 	Fi[0][2] = make_pair(0.0,-1.0/h);
 	Fi[0][3] = make_pair(1.0/h,-1.0/h);
 	Fi[0][4] = make_pair(1.0/h,0.0);
-	Fi[0][5] = make_pair(0.0,1.0/h); 
+	Fi[0][5] = make_pair(0.0,1.0/h);
 	Fi[0][6] = make_pair(-1.0/h,1.0/h);
 	//значение базисных функций для треугольной области области
 
@@ -36,7 +37,7 @@ integral::integral(double h, int n, double e, double m, int a)
 	Fi[1][2] = make_pair(0.0,-1.0/h);
 	Fi[1][3] = make_pair(1.0/h,-1.0/h2);
 	Fi[1][4] = make_pair(1.0/h,0.0);
-	Fi[1][5] = make_pair(0.0,1.0/h2); 
+	Fi[1][5] = make_pair(0.0,1.0/h2);
 	Fi[1][6] = make_pair(-1.0/h,1.0/h2);
 }
 
@@ -65,9 +66,14 @@ vector<double> integral::CalcElememt(int row, int column ,pair<int,int> x, int n
 	}
 	map<int,pair<bool,int> > K(BuildAreaElm_K(N*2-column,row,column));//Данные у узлах
 	map<int,pair<bool,int> > triangl_K(BuildAreaTriangl_K(K));//Данные о треугольниках
-	map<int,double> T(TriangleArea(triangl_K,x,number));//площади треугольников
-
-	vector<double> new_Matrix;
+	map<int,double> T(TriangleArea(triangl_K,x,number));//Площади треугольников
+	
+	//для вывода значения интеграллов
+	// for (int i = 0; i < 7; ++i)
+	// {
+	// 	cout << "T[" << i << "] = " << T[i]<< endl;
+	// }
+	 vector<double> new_Matrix;
 	for(int j = 0; j < N; ++j)
 	{
 		for(int i = 0; i < (2*N-1-j) ; ++i)
