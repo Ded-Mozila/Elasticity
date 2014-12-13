@@ -8,9 +8,9 @@ int main(int argc, char const *argv[])
 {
 	// integral tq1(0.05 ,10,1,1,30);
 	// tq1.CalcElememt(atoi(argv[1]),atoi(argv[2]),make_pair(atoi(argv[3]),atoi(argv[4])),atoi(argv[5]));
-	CompressingPlane T1(atoi(argv[1]),atoi(argv[2]));
+	CompressingPlane T1(atoi(argv[1]),atoi(argv[2]),atof(argv[5]));
 	T1.MatrixCompit(1);
-	CompressingPlane T2(atoi(argv[1]),atoi(argv[2]));
+	CompressingPlane T2(atoi(argv[1]),atoi(argv[2]),atof(argv[5]));
 	T2.MatrixCompit(2);
 	vector<vector<double> > MatrixTop = T1.InsertMatix(T1.Multiplication(0,2),T1.Multiplication(1,3));
 
@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
 	vector<double> B = T2.B_r(MatrixTop.size()/2,0);
 	B.insert(B.end(),B_R.begin(),B_R.end()); 
 	Zeidely L_1;
-	vector<double> x = L_1.Iterat1(MatrixTop,B,MatrixTop.size(),1e-09);
+	vector<double> x = L_1.Iterat1(MatrixTop,B,MatrixTop.size(),1e-09,atof(argv[5]),atoi(argv[1]));
 	string nameFile(argv[4]);
 	//WriteVector(x);
 	WriteMatrix_vector(MatrixTop);

@@ -18,13 +18,19 @@ bool converge(vector<double> curr, vector<double> next, double eps, int N, int c
       return false;
     return true;
 }
-vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, int N, double eps)
+vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, int N, double eps, double alfa, int n)
 {
 	vector<double> next(B.size(),0);
 	vector<double> curr(B);
 	int count = 1;
+	int ttttt;
+
 	while( true )
 	{   
+		int z2 = 0;
+		int sum2 = z2;
+		int z = 0;
+		int sum = z;
 	    for( int i = 0; i < N; i++ )
 	    {        
 	        bool a = true;
@@ -42,13 +48,43 @@ vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, in
 	        double var = 0.0;
 	        for( int j = 0; j < i; j++ )
 	        {
-	            var += ( A[i][j] * next[j] );
+	            var += ( A[i][j] * next[j]  );
 	        }
 	        for( int j = i + 1; j < N; j++ )
 	        {
 	            var += ( A[i][j] * curr[j] );
 	        }
-	        next[i] = ( B[i] - var ) / A[i][i];
+
+				if( N/2+sum == i && z < n)
+				{
+					//cout << sum << endl;
+					//cin >> ttttt;
+					sum += n*2-1-z;
+					if (next[i]>0)
+					{
+						next[i] = 0.5*A[i][i]*next[i]*next[i] +( var - B[i])*next[i]+alfa*next[i];
+					}else if (next[i]<0)
+					{
+						next[i] = 0.5*A[i][i]*next[i]*next[i] +( var - B[i])*next[i]-alfa*next[i];
+					}
+					z+=1;
+				}
+				else
+				{
+					next[i] = -( var -B[i]  ) / A[i][i];
+				}
+				if( sum2 == i && z2 < n)
+	        	{
+	        		// cout << sum2 << endl;
+	        		// cin >> ttttt;
+	        		sum2 += n*2-1-z2;
+	        		if (next[i]>0)
+	        		{
+	        			next[i]=0;
+	        		}
+	        		z2+=1;
+	        	}
+
 	    }
 	    //проверка
 	    if( converge( curr, next, eps, N, count ) ) break;
@@ -58,7 +94,7 @@ vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, in
 	}   
 	return next; 
 }
-vector<double> Zeidely::Iterat2(vector<vector<double> > A, vector<double> B, int N, double eps)
+vector<double> Zeidely::Iterat2(vector<vector<double> > A, vector<double> B, int N, double eps,double alfa)
 {
 	vector<double> x(B);
 	vector<double> xn(B);
@@ -67,6 +103,7 @@ vector<double> Zeidely::Iterat2(vector<vector<double> > A, vector<double> B, int
 	double w=1 ,norma , error_old;
 	int i,j;
 	int k = 0;
+
 	do
 	{  
 		k++;
@@ -81,6 +118,7 @@ vector<double> Zeidely::Iterat2(vector<vector<double> > A, vector<double> B, int
 				x[i]+=A[i][j]*x[j];
 			}
 			x[i]=(B[i]-x[i] )/A[i][i];
+			
 		 //x[i]=w*x[i]+(1-w)*xn[i];				   
 			if(fabs(x[i]-xn[i]) > norma)
 			  norma=fabs(x[i]-xn[i]);

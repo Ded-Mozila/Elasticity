@@ -1,9 +1,10 @@
 #include "compressing_plane.h"
 #include "write.h"
-CompressingPlane::CompressingPlane(int n, int a)
+CompressingPlane::CompressingPlane(int n, int a, double _alfa)
 {
 		//Начальные настройки для задачи
 		A = a;
+		alfa = _alfa;
 		M = 0.3;
 		E = 1000000000;
 		H = 0.05;
@@ -76,14 +77,21 @@ vector<double> CompressingPlane::B_l(int size, double p)
 				if( i == 0 )
 				{
 					if(j < N )
-						B.push_back(p*H);
+					{
+					/*	if (j == 0)
+							B.push_back(p*H-alfa*p*H); //трение на первый элемент
+						else */B.push_back(p*H);
+
+					}
 					else B.push_back(p*H/tan(A*M_PI/(180))); 
 				}
 				else 
 				{	
 					if ( i == N-1 )
 					{	
-						B.push_back(p*H*(-1));
+/*						if (j == 0)
+							B.push_back((-1)*p*H+alfa*p*H); //трение на первый элемент
+						else */B.push_back(p*H*(-1));
 					}
 					else B.push_back(0);
 				}

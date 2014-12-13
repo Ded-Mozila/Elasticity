@@ -56,7 +56,7 @@ vector<vector<double> > integral::MakePlane(pair<int,int> x, int number)
 
 vector<double> integral::CalcElememt(int row, int column ,pair<int,int> x, int number)// xi- первая константа для dFik/dxi , xj  - вторая константа для dFi/dxj 
 {
-	if( (number == 1 && row <= 0) || row >= (N*2-2)-column)
+	if( ( row < 0) || row >= (N*2-2)-column )
 	{
 		vector<double> Matrixx;// Создание пустой таблицы
 		for(int j = 0; j < N; ++j)
