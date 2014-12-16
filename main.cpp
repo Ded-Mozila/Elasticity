@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
 	vector<double> B = T2.B_r(MatrixTop.size()/2,0);
 	B.insert(B.end(),B_R.begin(),B_R.end()); 
 	Zeidely L_1;
-	vector<double> x = L_1.Iterat1(MatrixTop,B,MatrixTop.size(),1e-09,atof(argv[5]),atoi(argv[1]));
+	vector<double> x = L_1.Iterat1(MatrixTop,B,MatrixTop.size(),1e-09,atof(argv[5]),atoi(argv[1]),0.05);
 	string nameFile(argv[4]);
 	//WriteVector(x);
 	WriteMatrix_vector(MatrixTop);

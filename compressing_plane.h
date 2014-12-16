@@ -37,3 +37,5 @@ public:
 	vector<double> B_r (int size, double p);
 };
 #endif
+
+

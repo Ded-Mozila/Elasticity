@@ -18,13 +18,17 @@ bool converge(vector<double> curr, vector<double> next, double eps, int N, int c
       return false;
     return true;
 }
-vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, int N, double eps, double alfa, int n)
+vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, int N, double eps, double alfa, int n, double h)
 {
 	vector<double> next(B.size(),0);
 	vector<double> curr(B);
 	int count = 1;
+	std::vector<int> node; // Граничные узлы
+	double f = alfa; //коефициент трения
+	map<int,double> g;// Сила трения
+	map<int,double> g2;// Сила трения
 	int ttttt;
-
+	//alfa = 900000;
 	while( true )
 	{   
 		int z2 = 0;
@@ -54,44 +58,55 @@ vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, in
 	        {
 	            var += ( A[i][j] * curr[j] );
 	        }
+        	next[i] = (-1)*( var -B[i]  ) / A[i][i];
 
-				if( N/2+sum == i && z < n)
+			if( N/2+sum == i && z < n ) //Трение
+			{
+				sum += n*2-1-z;
+				if (count ==1)
 				{
-					//cout << sum << endl;
-					//cin >> ttttt;
-					sum += n*2-1-z;
-					if (next[i]>0)
-					{
-						next[i] = 0.5*A[i][i]*next[i]*next[i] +( var - B[i])*next[i]+alfa*next[i];
-					}else if (next[i]<0)
-					{
-						next[i] = 0.5*A[i][i]*next[i]*next[i] +( var - B[i])*next[i]-alfa*next[i];
-					}
-					z+=1;
+					g[sum] = 0;
 				}
-				else
-				{
-					next[i] = -( var -B[i]  ) / A[i][i];
-				}
-				if( sum2 == i && z2 < n)
-	        	{
-	        		// cout << sum2 << endl;
-	        		// cin >> ttttt;
-	        		sum2 += n*2-1-z2;
-	        		if (next[i]>0)
-	        		{
-	        			next[i]=0;
-	        		}
-	        		z2+=1;
-	        	}
+				alfa = g[sum]*h;
+				//cout << next[i] << endl;
+				if ( next[i] > 0 && ( var - B[i] ) < (-1)*alfa)
+					next[i] = (( var - B[i] )+alfa)*(-1)/A[i][i];
+				else if ( next[i] < 0 && ( var - B[i]) > alfa)
+					next[i] = (alfa - ( var - B[i]))/A[i][i];
+				g[sum]=f*fabs(var - B[i]);				
+				z+=1;
+			}
+			if( sum2 == i && z2 < n)// Сеньерини
+        	{
+        		if (count == 1)
+        		{
+        			node.push_back(i);
+        		}
+        		if (next[i]> 0)
+        		{
+        			next[i]=0;
+        		}
+        		sum2 += n*2-1-z2;
+        		z2+=1;
+        	}
 
 	    }
+	    // for (int i = 0; i < node.size(); ++i)
+	    // {
+	    // 	g[node[i]] = g2[node[i]] ;
+	    // }
 	    //проверка
 	    if( converge( curr, next, eps, N, count ) ) break;
 	    for( int i = 0; i < N; i++ )
 	        curr[i] = next[i];
 	    count++;
 	}   
+	  for (int i = 0; i < node.size(); ++i)
+	    {
+	    	g[node[i]] = curr[N/2+node[i]] *f;
+	    }
+	    count =1;
+
 	return next; 
 }
 vector<double> Zeidely::Iterat2(vector<vector<double> > A, vector<double> B, int N, double eps,double alfa)
