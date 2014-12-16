@@ -67,7 +67,7 @@ vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, in
 				{
 					g[sum] = 0;
 				}
-				alfa = g[sum]*h;
+				alfa = g[sum];
 				//cout << next[i] << endl;
 				if ( next[i] > 0 && ( var - B[i] ) < (-1)*alfa)
 					next[i] = (( var - B[i] )+alfa)*(-1)/A[i][i];
@@ -91,10 +91,6 @@ vector<double>  Zeidely::Iterat1(vector<vector<double> > A, vector<double> B, in
         	}
 
 	    }
-	    // for (int i = 0; i < node.size(); ++i)
-	    // {
-	    // 	g[node[i]] = g2[node[i]] ;
-	    // }
 	    //проверка
 	    if( converge( curr, next, eps, N, count ) ) break;
 	    for( int i = 0; i < N; i++ )
